@@ -4,9 +4,10 @@
       "slug": "product-1",
       "description": "shortDescription product-1",
       "media": [
-        { "src": "https://gv.videocdn.alibaba.com/4f4e1c368ac918af/9515a4c0d670c0ab/20231124_8c3e355960a6bb95_439395367794_mp4_264_hd_unlimit_taobao.mp4?bizCode=icbu_vod_video", "type": "video" },
-        { "src": "https://s.alicdn.com/@sc04/kf/H9174e4a195c04c88b5b4dbdc18bf852e4.jpg_720x720q50.jpg", "type": "image" },
-        { "src": "https://s.alicdn.com/@sc04/kf/H4adc423e7d484875999d99e9a50f9fdb7.jpg_720x720q50.jpg", "type": "image" }
+        { "src": "https://v6-file.globalso.com/upload/p/1108/video/2024-04/6611fc7145dd560053.mp4", "type": "video" },
+        { "src": "https://www.panduit.com/content/dam/panduit/en/website/products/ups/images/ups-video.jpg", "type": "image" },
+        { "src": "https://s.alicdn.com/@sc04/kf/H4adc423e7d484875999d99e9a50f9fdb7.jpg_720x720q50.jpg", "type": "image" },
+        { "src": "https://www.panduit.com/en/products/featured-products/uninterruptible-power-supply/_jcr_content/par/enhanced_columncontr/par2/image_1496978985.coreimg.png/1737486289722/ups-header-550.png", "type": "image" }
       ]
     },
     {
