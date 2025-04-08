@@ -1,0 +1,30 @@
+---
+import products from '@/data/products.json';
+import Layout from '../../layouts/Layout.astro';
+import "../../styles/global.css";
+
+const { slug } = Astro.params;
+
+// Find the matching product
+const product = products.find(p => p.slug === slug);
+
+if (!product) {
+  throw new Error(`Product not found: ${slug}`);
+}
+
+export async function getStaticPaths() {
+  return products.map(product => ({
+    params: { slug: product.slug },
+  }));
+}
+---
+
+
+<Layout>
+	<body class="p-6">
+    <h1 class="text-3xl font-bold">{product.title}</h1>
+    <p class="mt-2 text-gray-700">{product.description}</p>
+    <p class="text-sm text-gray-500">Slug: {product.slug}</p>
+  </body>
+</Layout>
+

@@ -1,0 +1,32 @@
+[
+    {
+      "title": "Product 1",
+      "slug": "product-1",
+      "description": "shortDescription product-1",
+      "media": [
+        { "src": "https://gv.videocdn.alibaba.com/4f4e1c368ac918af/9515a4c0d670c0ab/20231124_8c3e355960a6bb95_439395367794_mp4_264_hd_unlimit_taobao.mp4?bizCode=icbu_vod_video", "type": "video" },
+        { "src": "https://s.alicdn.com/@sc04/kf/H9174e4a195c04c88b5b4dbdc18bf852e4.jpg_720x720q50.jpg", "type": "image" },
+        { "src": "https://s.alicdn.com/@sc04/kf/H4adc423e7d484875999d99e9a50f9fdb7.jpg_720x720q50.jpg", "type": "image" }
+      ]
+    },
+    {
+      "title": "Product 2",
+      "slug": "product-2",
+      "description": "shortDescription product-2",
+      "media": [
+        { "src": "/media/image3.jpg", "type": "image" },
+        { "src": "/media/image4.jpg", "type": "image" }
+      ]
+    },
+    {
+      "title": "Product 3",
+      "slug": "product-3",
+      "description": "shortDescription product-3",
+      "media": [
+        { "src": "/media/video2.mp4", "type": "video" },
+        { "src": "/media/image5.jpg", "type": "image" },
+        { "src": "/media/image6.jpg", "type": "image" }
+      ]
+    }
+  ]
+  
