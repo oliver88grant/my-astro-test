@@ -35,7 +35,7 @@ async function describeImage(url) {
             "role": "user",
             "content": [{
                 "type": "text",
-                "text": "Create a product description for the image, return in string html format wrapped in a div container with class description-wrapper "
+                "text": "Create a product description for the image, return in html string format wrapped in a div container with class description-wrapper"
             }, {
                 "type": "image_url",
                 "image_url": {
@@ -56,12 +56,12 @@ async function run() {
   const { allProducts, remaining } = await loadProducts();
 
   for (const product of remaining) {
-    if (!product.image_arr || product.image_arr.length === 0) {
+    if (!product.images_arr || product.images_arr.length === 0) {
       console.warn(`⚠️ No image found for product: ${product.slug}`);
       continue;
     }
 
-    const firstImage = product.image_arr[0]?.url;
+    const firstImage = product.images_arr[0]?.url;
     if (!firstImage) {
       console.warn(`⚠️ Missing image URL for product: ${product.slug}`);
       continue;
@@ -71,12 +71,22 @@ async function run() {
 
     try {
       const description = await describeImage(firstImage);
-      product.ai_description_by_image = description;
-      allProducts.push(product);
 
-      // Save progress after each successful request
-      fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allProducts, null, 2), 'utf-8');
-      console.log(`✅ Saved: ${product.slug}`);
+      // Extract the HTML inside the code block
+      const match = description.match(/```html\s*([\s\S]*?)\s*```/);
+      if (match && match[1]) {
+
+        let htmlContent = match[1];
+        htmlContent = htmlContent.replace(/\n/g, '')
+
+        product.ai_description_by_image = htmlContent;
+        allProducts.push(product);
+
+        // Save progress after each successful request
+        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allProducts, null, 2), 'utf-8');
+        console.log(`✅ Saved: ${product.slug}`);
+      }
+ 
     } catch (err) {
       console.log(`⛔ Skipped: ${product.slug}`);
       break; // Optional: break or continue based on your retry strategy
