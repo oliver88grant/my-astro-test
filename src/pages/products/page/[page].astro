@@ -1,0 +1,40 @@
+---
+import ProductCardForCat from '@/components/ProductCardForCat.astro';
+import products from '@/data/products.json';
+import Pagination from '@/components/Pagination.astro';
+export function getStaticPaths({ paginate }) {
+
+  // Generate pages from our array of astronauts, with 2 to a page
+  return paginate(products, { pageSize: 10 });
+}
+// All paginated data is passed on the "page" prop
+const { page } = Astro.props;
+const { currentPage, lastPage, data: currentProducts } = page;
+// Redirect to first page if page is 1
+if (Astro.params.page === '1') {
+  return Astro.redirect('/products');
+}
+---
+<!-- Display the current page number. `Astro.params.page` can also be used! -->
+<h1>Page {page.currentPage}</h1>
+<ul>
+  <!-- List the array of astronaut info -->
+  {page.data.map((product ) =>(
+    <ProductCardForCat
+      title={product.title}
+      slug={product.slug}
+      description={product.description}
+      images_arr={product.images_arr}
+    />)
+  )}
+</ul>
+
+{products.length > 10 ? (
+  <div class="mt-4">
+    <Pagination
+      currentPage={currentPage}
+      totalPages={lastPage}
+      baseUrl="/products/page"
+    />
+  </div>
+) : null}

@@ -1,0 +1,47 @@
+---
+// Props for the component
+interface Props {
+  title: string;
+  slug: string;
+  description: string;
+  images_arr: { mime: string; url: string }[];
+}
+
+const { title, slug, description, images_arr } = Astro.props;
+---
+
+<div class="product-card">
+  <h2>{title}</h2>
+  <p><strong>Slug:</strong> {slug}</p>
+  <p>{description}</p>
+  <div class="media">
+    {images_arr.map((asset, index) => (
+      asset.mime === "image/jpeg" ? (
+        <img src={asset.url} alt={`${title} Image ${index + 1}`} />
+      ) : (
+        <video controls>
+          <source src={asset.url} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )
+    ))}
+  </div>
+</div>
+
+<style>
+  .product-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+  }
+  .media {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  img, video {
+    max-width: 200px;
+    height: auto;
+  }
+</style>

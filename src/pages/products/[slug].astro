@@ -22,8 +22,8 @@ if (!product) {
 
 // Sort media: video first, then image
 const sortedMedia = [
-  ...product.media.filter(item => item.type === 'video'),
-  ...product.media.filter(item => item.type === 'image'),
+  ...product.images_arr.filter(item => item.mime?.startsWith("video")),
+  ...product.images_arr.filter(item => item.mime?.startsWith('image')),
 ];
 
 export async function getStaticPaths() {
@@ -42,16 +42,16 @@ export async function getStaticPaths() {
           <ul class="splide__list">
             {sortedMedia.map((item, index) => (
               <li class="splide__slide" key={index}>
-                {item.type === 'video' ? (
+                {item.mime?.startsWith("video") ? (
                   <div class="video-container w-full h-full relative">
                     <video id="product-video" controls muted class="w-full rounded-lg object-contain h-full">
-                      <source src={item.src} type="video/mp4" />
+                      <source src={item.url} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   </div>
                   
                 ) : (
-                  <img src={item.src} alt={`Media ${index + 1}`} class="w-full rounded-lg object-contain h-full" />
+                  <img src={item.url} alt={`Media ${index + 1}`} class="w-full rounded-lg object-contain h-full" />
                 )}
               </li>
             ))}

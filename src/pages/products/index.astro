@@ -1,0 +1,49 @@
+---
+import ProductCardForCat from '@/components/ProductCardForCat.astro';
+import products from '@/data/products.json';
+import Pagination from '@/components/Pagination.astro';
+
+const pageSize = 10;
+const currentPage = 1;
+const totalProducts = products.length;
+const totalPages = Math.ceil(totalProducts / pageSize);
+const currentProducts = products.slice(0, pageSize);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Product List</title>
+  </head>
+  <body>
+    <h1>Our Products</h1>
+    <div class="product-list">
+      {currentProducts.map((product) => (
+        <ProductCardForCat
+          title={product.title}
+          slug={product.slug}
+          description={product.description}
+          images_arr={product.images_arr}
+        />
+      ))}
+    </div>
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      baseUrl="/products/page"
+      isFirstPage={true}
+    />
+  </body>
+</html>
+
+<style>
+  .product-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  h1 {
+    text-align: center;
+  }
+</style>
