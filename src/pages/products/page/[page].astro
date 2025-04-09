@@ -1,11 +1,13 @@
 ---
+import Layout from '@/layouts/Layout.astro';
 import ProductCardForCat from '@/components/ProductCardForCat.astro';
 import products from '@/data/products.json';
 import Pagination from '@/components/Pagination.astro';
+import { defaultPageSize } from '@/config';
+export const pageSize = defaultPageSize || 10;
 export function getStaticPaths({ paginate }) {
 
-  // Generate pages from our array of astronauts, with 2 to a page
-  return paginate(products, { pageSize: 10 });
+  return paginate(products, { pageSize: pageSize });
 }
 // All paginated data is passed on the "page" prop
 const { page } = Astro.props;
@@ -15,26 +17,54 @@ if (Astro.params.page === '1') {
   return Astro.redirect('/products');
 }
 ---
-<!-- Display the current page number. `Astro.params.page` can also be used! -->
-<h1>Page {page.currentPage}</h1>
-<ul>
-  <!-- List the array of astronaut info -->
-  {page.data.map((product ) =>(
-    <ProductCardForCat
-      title={product.title}
-      slug={product.slug}
-      description={product.description}
-      images_arr={product.images_arr}
-    />)
-  )}
-</ul>
-
-{products.length > 10 ? (
-  <div class="mt-4">
-    <Pagination
-      currentPage={currentPage}
-      totalPages={lastPage}
-      baseUrl="/products/page"
-    />
+<Layout>
+	<h1>Page {page.currentPage}</h1>
+  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+    <!-- List the array of astronaut info -->
+    {currentProducts.map((product ) =>(
+      <ProductCardForCat
+        title={product.title}
+        slug={product.slug}
+        description={product.description}
+        images_arr={product.images_arr}
+      />)
+    )}
   </div>
-) : null}
+
+  {products.length > pageSize ? (
+    <div class="mt-4">
+      <Pagination
+        currentPage={currentPage}
+        totalPages={lastPage}
+        baseUrl="/products"
+      />
+    </div>
+  ) : null}
+
+
+  <script type="module">
+    import Splide from 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.esm.min.js';
+    import Vlitejs from 'https://cdn.jsdelivr.net/npm/vlitejs@6';
+
+    //for related products carousel
+    const splides = document.getElementsByClassName( 'cat-product-carousel' );
+    for ( let i = 0; i < splides.length; i++ ) {
+      new Splide( splides[ i ], {
+        type: 'loop',
+        perPage: 1,
+        autoplay: false,
+        pagination: true,
+      }).mount();
+    }
+
+    const catVideos = document.getElementsByClassName( 'cat-product-video');
+    for ( let j = 0; j < catVideos.length; j++ ) {
+      new Vlitejs(catVideos[j],{
+        options:{
+          autoplay: false,
+        }
+      });
+    }
+  </script>
+</Layout>
+

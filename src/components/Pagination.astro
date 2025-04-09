@@ -3,9 +3,13 @@ interface Props {
   currentPage: number;
   totalPages: number;
   baseUrl: string;
+  isFirstPage?: boolean;
+  navClass?: string;
+  ulClass?: string;
+  liClass?: string;
 }
 
-const { currentPage, totalPages, baseUrl } = Astro.props;
+const { currentPage, totalPages, baseUrl, navClass, ulClass, liClass } = Astro.props;
 
 const generatePaginationArray = (current: number, total: number) => {
   const delta = 2;
@@ -40,13 +44,13 @@ const generatePaginationArray = (current: number, total: number) => {
 const paginationArray = generatePaginationArray(currentPage, totalPages);
 ---
 
-<nav class="pagination" aria-label="Pagination">
-  <ul class="pagination-list">
+<nav class=`pagination ${navClass}` aria-label="Pagination">
+  <ul class=`pagination-list ${ulClass}`>
     <!-- Previous button -->
-    <li>
+    <li class=`${liClass}`>
       <a
-        href={currentPage > 1 ? `${baseUrl}/${currentPage - 1}` : '#'}
-        class={`pagination-link ${currentPage === 1 ? 'disabled' : ''}`}
+        href={currentPage > 1 ? `${baseUrl}/page/${currentPage - 1}` : '#'}
+        class={`pagination-link ${currentPage === 1 ? 'disabled' : ''} `}
         aria-label="Previous page"
       >
         Previous
@@ -56,12 +60,12 @@ const paginationArray = generatePaginationArray(currentPage, totalPages);
     <!-- Page numbers -->
     {
       paginationArray.map((page) => (
-        <li>
+        <li class={liClass}>
           {page === '...' ? (
             <span class="pagination-ellipsis">&hellip;</span>
           ) : (
             <a
-              href={`${baseUrl}/${page}`}
+              href={`${baseUrl}/${page === 1 ? '' : `page/${page}`}`}
               class={`pagination-link ${
                 currentPage === page ? 'active' : ''
               }`}
@@ -76,10 +80,10 @@ const paginationArray = generatePaginationArray(currentPage, totalPages);
     }
 
     <!-- Next button -->
-    <li>
+    <li class={liClass}>
       <a
         href={
-          currentPage < totalPages ? `${baseUrl}/${currentPage + 1}` : '#'
+          currentPage < totalPages ? `${baseUrl}/page/${currentPage + 1}` : '#'
         }
         class={`pagination-link ${
           currentPage === totalPages ? 'disabled' : ''

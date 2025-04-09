@@ -31,8 +31,7 @@
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+3+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+3+Image+2"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+3+Image+3"},
-      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+3+Image+4"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+3+Video+1"}
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+3+Image+4"}
     ]
   },
   {
@@ -102,7 +101,6 @@
     "images_arr": [
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+9+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+9+Image+2"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+9+Video+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+9+Image+3"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+9+Image+4"}
     ]
@@ -163,7 +161,6 @@
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+14+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+14+Image+2"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+14+Image+3"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+14+Video+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+14+Image+4"}
     ]
   },
@@ -198,7 +195,6 @@
     "images_arr": [
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+17+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+17+Image+2"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+17+Video+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+17+Image+3"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+17+Image+4"}
     ]
@@ -223,8 +219,7 @@
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+19+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+19+Image+2"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+19+Image+3"},
-      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+19+Image+4"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+19+Video+1"}
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+19+Image+4"}
     ]
   },
   {
@@ -259,7 +254,6 @@
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+22+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+22+Image+2"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+22+Image+3"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+22+Video+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+22+Image+4"}
     ]
   },
@@ -294,7 +288,6 @@
     "images_arr": [
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+25+Image+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+25+Image+2"},
-      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+25+Video+1"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+25+Image+3"},
       {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+25+Image+4"}
     ]

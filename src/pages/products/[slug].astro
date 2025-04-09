@@ -1,10 +1,13 @@
 ---
 import products from '@/data/products.json';
 import Layout from '../../layouts/Layout.astro';
+import ProductCardForCat from '@/components/ProductCardForCat.astro';
 import "../../styles/global.css";
 
 import '@splidejs/splide/css';
 import 'vlitejs/vlite.css';
+import { defaultRelatedProductsNum } from '@/config';
+
 
 // import GalleryCarousel from '@/components/GalleryCarousel.jsx';
 
@@ -26,6 +29,15 @@ const sortedMedia = [
   ...product.images_arr.filter(item => item.mime?.startsWith('image')),
 ];
 
+
+// Exclude the current product
+const otherProducts = products.filter(p => p.slug !== slug);
+// Shuffle the rest
+const shuffled = [...otherProducts].sort(() => 0.5 - Math.random());
+// Take the first 6
+const relatedProductsNum = defaultRelatedProductsNum || 6;
+const relatedProducts = shuffled.slice(0, relatedProductsNum);
+
 export async function getStaticPaths() {
   return products.map(product => ({
     params: { slug: product.slug },
@@ -41,7 +53,7 @@ export async function getStaticPaths() {
         <div class="splide__track">
           <ul class="splide__list">
             {sortedMedia.map((item, index) => (
-              <li class="splide__slide" key={index}>
+              <li class="splide__slide">
                 {item.mime?.startsWith("video") ? (
                   <div class="video-container w-full h-full relative">
                     <video id="product-video" controls muted class="w-full rounded-lg object-contain h-full">
@@ -65,24 +77,71 @@ export async function getStaticPaths() {
       </div>
     </div>
     
-    
+    <div class="relative-products">
+      <h4 class="text-center text-2xl font-bold mt-3">Relative products</h4>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        {relatedProducts.map(product => (
+          <ProductCardForCat
+            title={product.title}
+            slug={product.slug}
+            description={product.description}
+            images_arr={product.images_arr}
+          />
+        ))}
+
+      </div>
+    </div>
     <script type="module">
       import Splide from 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.esm.min.js';
       import Vlitejs from 'https://cdn.jsdelivr.net/npm/vlitejs@6';
-      const splide = new Splide('#product-carousel', {
-        type: 'loop',
-        perPage: 1,
-        autoplay: false,
-        pagination: true,
-      });
 
-      splide.mount();
 
-      new Vlitejs(document.querySelector('#product-video'),{
-        options:{
+      //for current product carousel
+      const productCarousel = document.querySelector('#product-carousel');
+      if (productCarousel) {
+        const splide = new Splide('#product-carousel', {
+          type: 'loop',
+          perPage: 1,
           autoplay: false,
+          pagination: true,
+        });
+
+        splide.mount();
+      }
+     
+      //for current product video
+      const productVideo = document.querySelector('#product-video');
+      if (productVideo) {
+        new Vlitejs(document.querySelector('#product-video'),{
+          options:{
+            autoplay: false,
+          }
+        });
+      }
+      
+
+      //for related products carousel
+      const splides = document.getElementsByClassName( 'cat-product-carousel' );
+      for ( let i = 0; i < splides.length; i++ ) {
+        new Splide( splides[ i ], {
+          type: 'loop',
+          perPage: 1,
+          autoplay: false,
+          pagination: true,
+        }).mount();
+      }
+      
+
+      const catVideos = document.getElementsByClassName( 'cat-product-video');
+
+      for ( let j = 0; j < catVideos.length; j++ ) {
+        new Vlitejs(catVideos[j],{
+            options:{
+              autoplay: false,
+            }
+          });
         }
-      });
+      
     </script>
   </body>
 </Layout>

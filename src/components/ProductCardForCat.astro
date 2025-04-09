@@ -1,4 +1,6 @@
 ---
+import '@splidejs/splide/css';
+import 'vlitejs/vlite.css';
 // Props for the component
 interface Props {
   title: string;
@@ -6,25 +8,42 @@ interface Props {
   description: string;
   images_arr: { mime: string; url: string }[];
 }
-
 const { title, slug, description, images_arr } = Astro.props;
+// Removed redundant export of slug
+// Sort media: video first, then image
+const sortedMedia = [
+  ...images_arr.filter(item => item.mime?.startsWith("video")),
+  ...images_arr.filter(item => item.mime?.startsWith('image')),
+];
 ---
 
 <div class="product-card">
-  <h2>{title}</h2>
+  <h2 class="text-lg font-bold">
+    <a href={`/products/${slug}`}>{title}</a>
+    
+  </h2>
   <p><strong>Slug:</strong> {slug}</p>
   <p>{description}</p>
-  <div class="media">
-    {images_arr.map((asset, index) => (
-      asset.mime === "image/jpeg" ? (
-        <img src={asset.url} alt={`${title} Image ${index + 1}`} />
-      ) : (
-        <video controls>
-          <source src={asset.url} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )
-    ))}
+
+  <div class="splide mt-4 cat-product-carousel">
+    <div class="splide__track">
+      <ul class="splide__list">
+        {sortedMedia.map((item, index) => (
+          <li class="splide__slide">
+            {item.mime?.startsWith("video") ? (
+              <div class="video-container w-full h-full relative">
+                <video controls muted class="w-full rounded-lg object-contain h-full cat-product-video">
+                  <source src={item.url} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            ) : (
+              <img src={item.url} alt={`Media ${index + 1}`} class="w-full rounded-lg object-contain h-full" />
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -41,7 +60,6 @@ const { title, slug, description, images_arr } = Astro.props;
     gap: 1rem;
   }
   img, video {
-    max-width: 200px;
     height: auto;
   }
 </style>
