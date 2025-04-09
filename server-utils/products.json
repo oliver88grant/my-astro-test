@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Product 1",
+    "slug": "product-1",
+    "description": "High-quality wireless headphones with noise cancellation",
+    "images_arr": [
+      {"mime": "image/jpeg", "url": "https://download.schneider-electric.com/files?p_Doc_Ref=SRYL15K15RMXLT_FL_V&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+1+Image+2"},
+      {"mime": "video/mp4", "url": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+1+Image+3"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+1+Image+4"}
+    ]
+  },
+  {
+    "title": "Product 2",
+    "slug": "product-2",
+    "description": "Fitness tracking smart watch with heart rate monitor",
+    "images_arr": [
+      {"mime": "image/jpeg", "url": "https://download.schneider-electric.com/files?p_Doc_Ref=SPD_STOS-7RUNCR_B_V&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+2+Image+2"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+2+Image+3"},
+      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+2+Video+1"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+2+Image+4"}
+    ]
+  },
+  {
+    "title": "Product 51",
+    "slug": "product-51",
+    "description": "Smart bike lock with fingerprint access",
+    "images_arr": [
+      {"mime": "image/jpeg", "url": "https://download.schneider-electric.com/files?p_Doc_Ref=APC-MMAE-83NRKD_00&p_File_Type=rendition_369_jpg&default_image=DefaultProductImage.png"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+51+Image+2"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+51+Image+3"},
+      {"mime": "video/mp4", "url": "https://placehold.co/video.mp4?text=Product+51+Video+1"},
+      {"mime": "image/jpeg", "url": "https://placehold.co/600x400?text=Product+51+Image+4"}
+    ]
+  }
+]
