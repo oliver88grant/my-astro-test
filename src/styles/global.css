@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+
+.table-bordered td, .table-bordered th {
+  border: 1px solid #dee2e6;
+}
+.table-hover {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+/* Table head */
+.table-hover thead {
+  background-color: #f8f9fa;
+}
+
+.table-hover thead th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Table body */
+.table-hover tbody tr {
+  transition: background-color 0.2s ease;
+}
+.table-hover tbody tr td:first-child {
+  min-width: 180px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #b2b5b9; /* Light gray on hover */
+  cursor: pointer;
+}
+
+.table-hover td {
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.table h6{
+  font-weight: bold;
+}

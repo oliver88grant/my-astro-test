@@ -35,7 +35,7 @@ async function describeImage(url) {
             "role": "user",
             "content": [{
                 "type": "text",
-                "text": "Create a product description for the image, return in html string format wrapped in a div container with class description-wrapper"
+                "text": "Create a product description for the image in plastic crates context, return in html string format wrapped in a div container with class description-wrapper"
             }, {
                 "type": "image_url",
                 "image_url": {

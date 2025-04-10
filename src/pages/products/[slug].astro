@@ -2,14 +2,11 @@
 import products from '@/data/products.json';
 import Layout from '../../layouts/Layout.astro';
 import ProductCardForCat from '@/components/ProductCardForCat.astro';
-import "../../styles/global.css";
 
 import '@splidejs/splide/css';
 import 'vlitejs/vlite.css';
-import { defaultRelatedProductsNum } from '@/config';
+import { defaultRelatedProductsNum, cdnDomain, originalDomain, mmtoinch,kgtolbs,ltogal } from '@/config';
 
-
-// import GalleryCarousel from '@/components/GalleryCarousel.jsx';
 
 
 
@@ -24,11 +21,15 @@ if (!product) {
 
 
 // Sort media: video first, then image
-const sortedMedia = [
+let sortedMedia = [
   ...product.images_arr.filter(item => item.mime?.startsWith("video")),
   ...product.images_arr.filter(item => item.mime?.startsWith('image')),
 ];
+sortedMedia=sortedMedia.map(item => {
+  item.url = item.url?.replace(originalDomain, cdnDomain)
 
+  return item
+})
 
 // Exclude the current product
 const otherProducts = products.filter(p => p.slug !== slug);
@@ -38,6 +39,22 @@ const shuffled = [...otherProducts].sort(() => 0.5 - Math.random());
 const relatedProductsNum = defaultRelatedProductsNum || 6;
 const relatedProducts = shuffled.slice(0, relatedProductsNum);
 
+
+// get product detail attribute
+const model = product.product_model || product['all_attributes_&_product_model'];
+const external_long = product['all_attributes_&_external_long'];
+const external_width = product['all_attributes_&_external_width'];
+const external_height = product['all_attributes_&_external_height'];
+
+const internal_long = product['all_attributes_&_internal_long'];
+const internal_width = product['all_attributes_&_internal_width'];
+const internal_height = product['all_attributes_&_external_height'];
+
+const volumn = product['all_attributes_&_volumn'];
+const weight = product['all_attributes_&_weight'];
+const folded_height = product['all_attributes_&_folded_height'];
+console.log(JSON.stringify(product))
+
 export async function getStaticPaths() {
   return products.map(product => ({
     params: { slug: product.slug },
@@ -46,7 +63,7 @@ export async function getStaticPaths() {
 ---
 
 
-<Layout>
+<Layout title={product.title} description={product.description} ogImage={product.twitter_image.replace(originalDomain, cdnDomain)}>
 	<body class="p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="splide mt-4" id="product-carousel">
@@ -63,7 +80,7 @@ export async function getStaticPaths() {
                   </div>
                   
                 ) : (
-                  <img src={item.url} alt={`Media ${index + 1}`} class="w-full rounded-lg object-contain h-full" />
+                  <img src={item.url} alt={product.short_title} class="w-full rounded-lg object-contain h-full" />
                 )}
               </li>
             ))}
@@ -71,10 +88,99 @@ export async function getStaticPaths() {
         </div>
       </div>
       <div>
-        <h1 class="text-3xl font-bold">{product.title}</h1>
-        <p class="mt-2 text-gray-700">{product.description}</p>
-        <p class="text-sm text-gray-500">Slug: {product.slug}</p>
+        <h1 class="text-2xl font-bold capitalize">{product.title}</h1>
+
+        <table class="table table-hover table-bordered single-product-attr table-auto border border-gray-200">
+          <caption>
+              <button class={`bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded my-3 product-inquiry`} onClick={(e)=>this.toContactUs(e,model,images[0].original)}>Request a Free Quote</button>
+          </caption>
+          <tbody>
+              <tr>
+                <td>
+                  <h6>Product Model</h6>
+                </td>
+                <td class="product-model">
+                  <span class="mm pull-left value">{model}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>External Dimensions</h6>
+                  <span>(L * W * H)</span>
+                </td>
+                <td class="external-dimension">
+                  <span class="mm pull-left value">{external_long} X {external_width} X {external_height}</span>
+                  <span class="pull-right">mm</span>
+                  <hr class="w-100 mt-4 mb-0" />
+                  <span class="inch pull-left value">{(external_long * mmtoinch).toFixed(2)} X {(external_width * mmtoinch).toFixed(2)} X {(external_height * mmtoinch).toFixed(2)}</span>
+                  <span class="pull-right">in</span>
+                </td>
+              </tr>
+              {internal_long && (
+                <tr>
+                  <td>
+                    <h6>Internal Dimensions</h6>
+                    <span>(L * W * H)</span>
+                  </td>
+                  <td class="internal-dimension">
+                    <span class="mm pull-left value">{internal_long} X {internal_width} X {internal_height}</span>
+                    <span class="pull-right">mm</span>
+                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="inch pull-left value">{(internal_long * mmtoinch).toFixed(2)} X {(internal_width * mmtoinch).toFixed(2)} X {(internal_height * mmtoinch).toFixed(2)}</span>
+                    <span class="pull-right">in</span>
+                  </td>
+                </tr>
+              )}
+              
+              {folded_height && (
+                <tr>
+                  <td>
+                    <h6>Folded Height</h6>
+                  </td>
+                  <td class="internal-dimension">
+                    <span class="mm pull-left value">{folded_height}</span>
+                    <span class="pull-right">mm</span>
+                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="inch pull-left value">{(folded_height * mmtoinch).toFixed(2)}</span>
+                    <span class="pull-right">in</span>
+                  </td>
+                </tr>
+              )}
+              {weight && (
+                <tr>
+                  <td>
+                    <h6>Weight</h6>
+                  </td>
+                  <td class="internal-dimension">
+                    <span class="kg pull-left value">{weight}</span>
+                    <span class="pull-right">kg</span>
+                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="lbs pull-left value">{(weight * kgtolbs).toFixed(2)}</span>
+                    <span class="pull-right">lbs</span>
+                  </td>
+                </tr>
+              )}
+              {volumn && (
+                <tr>
+                  <td>
+                    <h6>Volumn</h6>
+                  </td>
+                  <td class="internal-dimension">
+                    <span class="liters pull-left value">{volumn}</span>
+                    <span class="pull-right">Liters</span>
+                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="gallon pull-left value">{(volumn * ltogal).toFixed(2) }</span>
+                    <span class="pull-right">Us gallon</span>
+                  </td>
+                </tr>
+              )}
+              
+          </tbody>
+        </table>
       </div>
+    </div>
+    <div class="description-section">
+      <div class="product-description" set:html={product.ai_description_by_image}></div>
     </div>
     
     <div class="relative-products">
@@ -155,4 +261,16 @@ export async function getStaticPaths() {
   .video-container :global(.v-bigPlay) :global(svg) {
     fill: burlywood;
   }
+  .product-description :global(h2){
+    font-size: large;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  .product-description :global(ul) :global(li){
+    margin: 5px 0;
+  }
+
+
+
+
 </style>

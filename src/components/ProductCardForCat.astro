@@ -1,6 +1,7 @@
 ---
 import '@splidejs/splide/css';
 import 'vlitejs/vlite.css';
+import { cdnDomain, originalDomain } from '@/config';
 // Props for the component
 interface Props {
   title: string;
@@ -11,19 +12,21 @@ interface Props {
 const { title, slug, description, images_arr } = Astro.props;
 // Removed redundant export of slug
 // Sort media: video first, then image
-const sortedMedia = [
+let sortedMedia = [
   ...images_arr.filter(item => item.mime?.startsWith("video")),
   ...images_arr.filter(item => item.mime?.startsWith('image')),
 ];
+
+sortedMedia=sortedMedia.map(item => {
+  item.url = item.url?.replace(originalDomain, cdnDomain)
+
+  return item
+})
 ---
 
 <div class="product-card">
-  <h2 class="text-lg font-bold">
-    <a href={`/products/${slug}`}>{title}</a>
-    
-  </h2>
-  <p><strong>Slug:</strong> {slug}</p>
-  <p>{description}</p>
+  
+
 
   <div class="splide mt-4 cat-product-carousel">
     <div class="splide__track">
@@ -38,13 +41,17 @@ const sortedMedia = [
                 </video>
               </div>
             ) : (
-              <img src={item.url} alt={`Media ${index + 1}`} class="w-full rounded-lg object-contain h-full" />
+              <img src={item.url} alt={item.short_title}} class="w-full rounded-lg object-contain h-full" />
             )}
           </li>
         ))}
       </ul>
     </div>
   </div>
+  <h2 class="text-lg font-bold line-clamp-2 hover:underline capitalize">
+    <a href={`/products/${slug}`}>{title}</a>
+    
+  </h2>
 </div>
 
 <style>
