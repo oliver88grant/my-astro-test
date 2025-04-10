@@ -1,6 +1,8 @@
 ---
 import "@/styles/global.css";
 import "@/styles/main.scss";
+import InquiryModal from '@/components/InquiryModal.astro';
+import Header from '@/components/Header.astro';
 
 // Layout.astro
 const {
@@ -8,6 +10,23 @@ const {
   description = "Default site description",
   ogImage = "/default-og.png",
 } = Astro.props;
+
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { 
+    label: 'Shop', 
+    href: '/shop',
+    dropdown: [
+      { label: 'New Arrivals', href: '/shop/new' },
+      { label: 'Best Sellers', href: '/shop/best-sellers' }
+    ]
+  },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' }
+];
+
 ---
 
 <html lang="en">
@@ -32,21 +51,17 @@ const {
 
   <body class="bg-white text-gray-900">
     <!-- Header -->
-    <header class="bg-blue-600 text-white p-4 shadow">
-      <div class="max-w-6xl mx-auto flex justify-between items-center">
-        <h1 class="text-xl font-bold"><a href="/">My Shop</a></h1>
-        <nav class="space-x-4 text-sm">
-          <a href="/products" class="hover:underline">Products</a>
-          <a href="/about" class="hover:underline">About</a>
-        </nav>
-      </div>
-    </header>
+    <Header 
+		logo="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNMTIgMTJDMTQgMTYgMTggMTQgMjAgMTZDMjIgMTggMjAgMjIgMTggMjQiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIi8+CiAgPHBhdGggZD0iTTI4IDE2QzI2IDIwIDIyIDE4IDIwIDIwQzE4IDIyIDIyIDI2IDI0IDI4IiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K" 
+		navItems={navItems} 
+	/>
 
     <!-- Main content -->
     <main class="max-w-6xl mx-auto p-6">
       <slot />
     </main>
 
+	<InquiryModal id="inquiryModal" />
     <!-- Footer -->
     <footer class="mt-12 bg-gray-100 text-sm text-gray-600 p-4 text-center">
       © {new Date().getFullYear()} My Shop. All rights reserved.

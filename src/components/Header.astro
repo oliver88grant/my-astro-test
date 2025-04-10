@@ -1,0 +1,134 @@
+---
+// components/Header.astro
+interface NavItem {
+  label: string;
+  href: string;
+  dropdown?: NavItem[];
+}
+
+interface Props {
+  logo: string;
+  navItems: NavItem[];
+}
+
+const { 
+  logo = '/logo.svg', 
+  navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Shop', href: '/shop' },
+    { 
+      label: 'Categories', 
+      href: '/categories', 
+      dropdown: [
+        { label: 'Electronics', href: '/categories/electronics' },
+        { label: 'Clothing', href: '/categories/clothing' },
+        { label: 'Accessories', href: '/categories/accessories' }
+      ]
+    },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' }
+  ]
+} = Astro.props;
+---
+
+<header class="bg-white shadow-md">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="/" class="flex items-center">
+      <img src={logo} alt="Store Logo" class="h-10 w-auto"/>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex space-x-6 items-center">
+      {navItems.map(item => (
+        <div class="desktop-nav-item relative group">
+          <a 
+            href={item.href} 
+            class="text-gray-800 hover:text-primary transition-colors flex items-center"
+          >
+            {item.label}
+            {item.dropdown && (
+              <svg 
+                class="w-4 h-4 ml-1 transform transition-transform group-hover:rotate-180" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  stroke-width="2" 
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            )}
+          </a>
+
+          {item.dropdown && (
+            <div class="desktop-dropdown absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 py-2 w-48 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
+              {item.dropdown.map(subItem => (
+                <a 
+                  href={subItem.href} 
+                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                >
+                  {subItem.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <!-- Rest of the header remains the same -->
+  </div>
+</header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const desktopNavItems = document.querySelectorAll('.desktop-nav-item');
+
+    desktopNavItems.forEach(item => {
+      const dropdown = item.querySelector('.desktop-dropdown');
+      
+      if (dropdown) {
+        // Create a larger hover area to prevent dropdown from disappearing
+        const hoverArea = document.createElement('div');
+        hoverArea.classList.add('desktop-dropdown-hover-area');
+        hoverArea.style.position = 'absolute';
+        hoverArea.style.left = '0';
+        hoverArea.style.right = '0';
+        hoverArea.style.height = '30px';
+        hoverArea.style.top = '100%';
+        
+        item.style.position = 'relative';
+        item.appendChild(hoverArea);
+
+        // Prevent dropdown from disappearing when moving to submenu
+        hoverArea.addEventListener('mouseenter', () => {
+          dropdown.classList.remove('hidden');
+          dropdown.classList.add('opacity-100');
+        });
+
+        hoverArea.addEventListener('mouseleave', () => {
+          dropdown.classList.add('hidden');
+          dropdown.classList.remove('opacity-100');
+        });
+      }
+    });
+  });
+</script>
+
+<style>
+  .desktop-dropdown {
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+  }
+
+  /* Ensure dropdown is visible when hovering over nav item or hover area */
+  .desktop-nav-item:hover .desktop-dropdown,
+  .desktop-dropdown-hover-area:hover + .desktop-dropdown,
+  .desktop-dropdown:hover {
+    display: block !important;
+    opacity: 1 !important;
+  }
+</style>

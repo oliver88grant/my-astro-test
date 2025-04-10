@@ -53,7 +53,6 @@ const internal_height = product['all_attributes_&_external_height'];
 const volumn = product['all_attributes_&_volumn'];
 const weight = product['all_attributes_&_weight'];
 const folded_height = product['all_attributes_&_folded_height'];
-console.log(JSON.stringify(product))
 
 export async function getStaticPaths() {
   return products.map(product => ({
@@ -63,7 +62,7 @@ export async function getStaticPaths() {
 ---
 
 
-<Layout title={product.title} description={product.description} ogImage={product.twitter_image.replace(originalDomain, cdnDomain)}>
+<Layout title={product.title} description={product.description} ogImage={product?.twitter_image?.replace(originalDomain, cdnDomain)}>
 	<body class="p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="splide mt-4" id="product-carousel">
@@ -92,7 +91,7 @@ export async function getStaticPaths() {
 
         <table class="table table-hover table-bordered single-product-attr table-auto border border-gray-200">
           <caption>
-              <button class={`bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded my-3 product-inquiry`} onClick={(e)=>this.toContactUs(e,model,images[0].original)}>Request a Free Quote</button>
+              <button class={`bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded my-3 inquiry-btn`} data-model={product.title}>Request a Free Quote</button>
           </caption>
           <tbody>
               <tr>

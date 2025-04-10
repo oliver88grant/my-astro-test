@@ -1,8 +1,23 @@
 ---
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
 import DemoCom from '../components/DemoCom.jsx';
+import Accordion from '../components/Accordion.astro';
+
+const faqItems = [
+  {
+    title: "What is your return policy?",
+    content: "You can return any item within 30 days of purchase, provided it’s in its original condition."
+  },
+  {
+    title: "How long does shipping take?",
+    content: "Shipping typically takes 3-5 business days within the continental US."
+  },
+  {
+    title: "Do you offer international shipping?",
+    content: "Yes, we ship internationally! Please contact us for rates and estimated delivery times."
+  }
+];
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -11,4 +26,11 @@ import DemoCom from '../components/DemoCom.jsx';
 <Layout>
 	<Welcome />
 	<DemoCom />
+	<button class="inquiry-btn bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" data-model={`工频机`}>Inquire</button>
+	<button class="inquiry-btn bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" data-model={`ups`}>Inquire</button>
+
+	<div class="faq-section bg-white p-6 rounded-lg shadow-md mt-8">
+		<h2 class="text-center">FAQ</h2>
+		<Accordion items={faqItems} />
+	</div>
 </Layout>
