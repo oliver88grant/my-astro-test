@@ -1,5 +1,50 @@
 @import "tailwindcss";
 
+/* indigo */
+@theme {
+  --color-themecolor-100: rgb(219, 235, 250);  /* very light tint */
+  --color-themecolor-200: rgb(179, 213, 244);  /* lighter tint */
+  --color-themecolor-300: rgb(128, 184, 236);  /* light */
+  --color-themecolor-400: rgb(77, 154, 226);   /* medium-light */
+  --color-themecolor-500: rgb(38, 129, 211);   /* base mid */
+  --color-themecolor-600: rgb(13, 108, 188);   /* darker mid */
+  --color-themecolor-700: rgb(4, 95, 173);     /* close to 800 */
+  --color-themecolor-800: rgb(0, 83, 166);     /* your defined base */
+  --color-themecolor-900: rgb(0, 60, 120);     /* darkest */
+}
+
+
+
+
+.btn {
+  @apply inline-block font-medium text-center px-4 py-2 rounded-md transition-colors duration-200;
+}
+
+.btn-primary {
+  @apply bg-themecolor-800 text-white hover:bg-themecolor-900 focus:outline-none focus:ring-2 focus:ring-themecolor-800 active:bg-themecolor-800;
+}
+
+.btn-secondary {
+  @apply bg-gray-400 text-white hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400 active:bg-gray-400;
+}
+
+.btn-outline-primary {
+  @apply bg-themecolor-800 text-themecolor-800 border border-themecolor-800 bg-themecolor-800 bg-transparent hover:bg-themecolor-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-themecolor-300;
+}
+
+.btn-lg {
+  @apply text-lg px-5 py-3 rounded-md;
+}
+
+.btn-sm {
+  @apply text-sm px-3 py-1.5;
+}
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+
+
 
 .table-bordered td, .table-bordered th {
   border: 1px solid #dee2e6;

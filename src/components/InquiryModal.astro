@@ -24,8 +24,8 @@ const { id = "inquiryModal" } = Astro.props;
       <p id="errMessage" class="text-red-500 hidden"></p>
       <p id="successMessage" class="text-green-500 hidden"></p>
       <div class="text-right">
-        <button type="button" class="bg-gray-300 text-gray-700 rounded-md py-2 px-4 mr-2 hover:bg-gray-400" onclick={`document.getElementById('${id}').classList.add('hidden')`}>Cancel</button>
-        <button class="bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700" id="submit-btn">Send <span id="loading-icon" class="loading-icon hidden"></span></button>
+        <button type="button" class="btn btn-secondary" onclick={`document.getElementById('${id}').classList.add('hidden')`}>Cancel</button>
+        <button class="btn btn-primary" id="submit-btn">Send <span id="loading-icon" class="loading-icon hidden"></span></button>
       </div>
       
     </form>
@@ -63,71 +63,91 @@ const { id = "inquiryModal" } = Astro.props;
   });
 </script>
 <script type="module" is:inline>
-  import axios from 'https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm';
 
-  const form = document.getElementById('inquiry-form');
-  const loadingIcon = document.getElementById('loading-icon');
-  const errMessageEle = document.getElementById('errMessage');
-  const successMessageEle = document.getElementById('successMessage');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
+  document.addEventListener('DOMContentLoaded', async() => {
     
-    const name = form.name?.value?.trim();
-    const message = form.message?.value?.trim();
-    const model = form.model?.value?.trim();
+    const form = document.getElementById('inquiry-form');
+    const loadingIcon = document.getElementById('loading-icon');
+    const errMessageEle = document.getElementById('errMessage');
+    const successMessageEle = document.getElementById('successMessage');
 
-    if (!name || !message || !model) {
-
-      successMessageEle.innerText = '';
-      successMessageEle.classList.add('hidden');
-      errMessageEle.innerText = 'Please fill out all fields.';
-      errMessageEle.classList.remove('hidden');
-      return;
+    if(!window.axios){
+      try {
+        const { default: axios } = await import('https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm');
+        window.axios = axios;
+      } catch (error) {
+        console.error('Error loading axios from https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm', error);
+      }
     }
 
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const submitBtn = document.getElementById('submit-btn');
-    loadingIcon.classList.remove('hidden');
+      const name = form.name?.value?.trim();
+      const message = form.message?.value?.trim();
+      const model = form.model?.value?.trim();
 
+      if (!name || !message || !model) {
 
-    const data={
-      name: name,
-      message: message,
-      model: model,
-    }
-
-
-    try {
-
-      const response = await axios.get('https://nestjs.50d.top');
-
-      if (response.status === 200) {
-        errMessageEle.innerText = '';
-        errMessageEle.classList.add('hidden');
-        
-        form.reset();
-        successMessageEle.innerText = 'Message sent successfully!';
-        successMessageEle.classList.remove('hidden');
-        // Optional: Close the modal
-        // document.getElementById('inquiryModal').classList.add('hidden');
-      } else {
-        errMessageEle.innerText = 'Something went wrong. Try again.';
+        successMessageEle.innerText = '';
+        successMessageEle.classList.add('hidden');
+        errMessageEle.innerText = 'Please fill out all fields.';
         errMessageEle.classList.remove('hidden');
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      errMessageEle.innerText = 'Failed to send message.';
-      errMessageEle.classList.remove('hidden');
-    }finally {
-      // Reset button state
-      if(submitBtn){
-        submitBtn.disabled = false;
-        loadingIcon.classList.add('hidden');
+
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      loadingIcon.classList.remove('hidden');
+
+
+      const data={
+        name: name,
+        message: message,
+        model: model,
       }
-    }
+
+
+      try {
+
+        if(!window.axios){
+          const { default: axios } = await import(`https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.4/esm/axios.min.js?cb=${Date.now()}`);
+          window.axios = axios;
+        }
+
+        const response = await axios.get('https://nestjs.50d.top');
+
+        if (response.status === 200) {
+          errMessageEle.innerText = '';
+          errMessageEle.classList.add('hidden');
+          
+          form.reset();
+          successMessageEle.innerText = 'Message sent successfully!';
+          successMessageEle.classList.remove('hidden');
+          // Optional: Close the modal
+          // document.getElementById('inquiryModal').classList.add('hidden');
+        } else {
+          errMessageEle.innerText = 'Something went wrong. Try again.';
+          errMessageEle.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error(err);
+        errMessageEle.innerText = 'Failed to send message.';
+        errMessageEle.classList.remove('hidden');
+      }finally {
+        // Reset button state
+        if(submitBtn){
+          submitBtn.disabled = false;
+          loadingIcon.classList.add('hidden');
+        }
+      }
+    });
+    
   });
+
+  
 </script>
 
 <style>

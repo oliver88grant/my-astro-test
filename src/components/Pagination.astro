@@ -123,13 +123,14 @@ const paginationArray = generatePaginationArray(currentPage, totalPages);
   }
 
   .pagination-link:hover:not(.disabled) {
-    background-color: #f0f0f0;
+    background-color: var(--color-themecolor-900);
+    color: white;
   }
 
   .pagination-link.active {
-    background-color: #007bff;
+    background-color: var(--color-themecolor-800);
     color: white;
-    border-color: #007bff;
+    border-color: var(--color-themecolor-800);
   }
 
   .pagination-link.disabled {
