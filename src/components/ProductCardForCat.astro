@@ -21,7 +21,8 @@ const {
   slug, 
   description, 
   images_arr, 
-  product_model, 
+  product_model,
+  short_title,
   ["all_attributes_&_external_long"]: external_long,
   ["all_attributes_&_external_width"]: external_width,
   ["all_attributes_&_external_height"]: external_height,
@@ -58,7 +59,7 @@ sortedMedia=sortedMedia.map(item => {
                   </video>
                 </div>
               ) : (
-                <img src={item.url} alt={item.short_title}} class="w-full rounded-lg object-contain h-full" />
+                <img src={item.url} alt={short_title} class="w-full rounded-lg object-contain h-full" />
               )}
             </li>
           ))}
@@ -101,5 +102,10 @@ sortedMedia=sortedMedia.map(item => {
   }
   img, video {
     height: auto;
+  }
+
+
+  :global(.splide__pagination__page.is-active) {
+    background: var(--color-themecolor-800);
   }
 </style>
