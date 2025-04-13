@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+
+:root {
+  --navbar-bg: #ffffff; /* White */
+  --navbar-text: #4b5563; /* Gray-600 */
+  --navbar-text-hover: #2563eb; /* Blue-600 */
+  --navbar-active: #2563eb; /* Blue-600 */
+  --navbar-logo: #1f2937; /* Gray-800 */
+  --navbar-dropdown-bg: #ffffff; /* White */
+  --navbar-dropdown-text: #4b5563; /* Gray-600 */
+  --navbar-dropdown-hover: #eff6ff; /* Blue-50 */
+  --navbar-shadow: #e5e7eb; /* Gray-200 */
+}
+
 /* indigo */
 @theme {
   --color-themecolor-100: rgb(219, 235, 250);  /* very light tint */
@@ -11,6 +24,15 @@
   --color-themecolor-700: rgb(4, 95, 173);     /* close to 800 */
   --color-themecolor-800: rgb(0, 83, 166);     /* your defined base */
   --color-themecolor-900: rgb(0, 60, 120);     /* darkest */
+  /* navbar color */
+  --color-navbar-bg: var(--navbar-bg, #ffffff); /* Default: white */
+  --color-navbar-text: var(--navbar-text, #4b5563); /*  Default: gray-600 */
+  --color-navbar-text-hover: var(--navbar-text-hover, #2563eb); /* Default: blue-600 */
+  --color-navbar-logo: var(--navbar-logo, #1f2937); /* Default: gray-800 */
+  --color-navbar-dropdown-bg: var(--navbar-dropdown-bg, #ffffff); /* Default: white */
+  --color-navbar-dropdown-text: var(--navbar-dropdown-text, #4b5563); /* Default: gray-600 */
+  --color-navbar-dropdown-hover: var(--navbar-dropdown-hover, #eff6ff); /* Default: blue-50 */
+  --color-navbar-shadow: var(--navbar-shadow, #e5e7eb); /* Default: gray-200 */
 }
 
 
@@ -44,50 +66,3 @@
 }
 
 
-
-
-.table-bordered td, .table-bordered th {
-  border: 1px solid #dee2e6;
-}
-.table-hover {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  color: #212529;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-}
-
-/* Table head */
-.table-hover thead {
-  background-color: #f8f9fa;
-}
-
-.table-hover thead th {
-  font-weight: 600;
-  text-align: left;
-  padding: 0.75rem;
-  border-bottom: 2px solid #dee2e6;
-}
-
-/* Table body */
-.table-hover tbody tr {
-  transition: background-color 0.2s ease;
-}
-.table-hover tbody tr td:first-child {
-  min-width: 180px;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #b2b5b9; /* Light gray on hover */
-  cursor: pointer;
-}
-
-.table-hover td {
-  padding: 0.75rem;
-  border-top: 1px solid #dee2e6;
-}
-
-.table h6{
-  font-weight: bold;
-}

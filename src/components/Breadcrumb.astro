@@ -1,0 +1,59 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+const { items = [] }: { items: BreadcrumbItem[] } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav aria-label="Breadcrumb" class="bg-navbar-bg py-4">
+  <div class="container mx-auto px-4">
+    <ol class="flex flex-wrap items-center space-x-2 text-sm">
+      {items.map((item, index) => (
+        <li class="flex items-center">
+          {/* Render link or text based on href */}
+          {item.href && index !== items.length - 1 ? (
+            <a
+              href={item.href}
+              class={`text-navbar-text hover:text-navbar-text-hover transition-colors ${
+                currentPath === item.href ? 'text-navbar-active font-semibold' : ''
+              }`}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              class={`${
+                index === items.length - 1
+                  ? 'text-navbar-active font-semibold'
+                  : 'text-navbar-text'
+              }`}
+            >
+              {item.label}
+            </span>
+          )}
+          {/* Separator (except for the last item) */}
+          {index < items.length - 1 && (
+            <svg
+              class="w-4 h-4 mx-2 text-navbar-text"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>

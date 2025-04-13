@@ -23,10 +23,7 @@ if (Astro.params.page === '1') {
     <!-- List the array of astronaut info -->
     {currentProducts.map((product ) =>(
       <ProductCardForCat
-        title={product.title}
-        slug={product.slug}
-        description={product.description}
-        images_arr={product.images_arr}
+        product={product}
       />)
     )}
   </div>

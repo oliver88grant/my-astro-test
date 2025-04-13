@@ -1,8 +1,8 @@
 ---
 import products from '@/data/products.json';
-import Layout from '../../layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro';
 import ProductCardForCat from '@/components/ProductCardForCat.astro';
-
+import Breadcrumb from '@/components/Breadcrumb.astro';
 import '@splidejs/splide/css';
 import 'vlitejs/vlite.css';
 import { defaultRelatedProductsNum, cdnDomain, originalDomain, mmtoinch,kgtolbs,ltogal } from '@/config';
@@ -59,12 +59,26 @@ export async function getStaticPaths() {
     params: { slug: product.slug },
   }));
 }
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { label: product.short_title }, // No href for current page
+];
 ---
 
 
-<Layout title={product.title} description={product.description} ogImage={product?.twitter_image?.replace(originalDomain, cdnDomain)}>
-	<body class="p-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<Layout 
+  title={product.title} 
+  description={product.description} 
+  ogImage={product?.twitter_image?.replace(originalDomain, cdnDomain)}
+  pageWrapClass="p-0"
+>
+	
+  
+  <div class="p-6">
+    <Breadcrumb items={breadcrumbItems} />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4 bg-neutral-100">
       <div class="splide mt-4" id="product-carousel">
         <div class="splide__track">
           <ul class="splide__list">
@@ -91,7 +105,7 @@ export async function getStaticPaths() {
 
         <table class="table table-hover table-bordered single-product-attr table-auto border border-gray-200">
           <caption>
-              <button class={`btn btn-primary inquiry-btn`} data-model={product.title}>Request a Free Quote</button>
+              <button class={`btn btn-primary my-3 inquiry-btn`} data-model={product.title}>Request a Free Quote</button>
           </caption>
           <tbody>
               <tr>
@@ -109,10 +123,10 @@ export async function getStaticPaths() {
                 </td>
                 <td class="external-dimension">
                   <span class="mm pull-left value">{external_long} X {external_width} X {external_height}</span>
-                  <span class="pull-right">mm</span>
-                  <hr class="w-100 mt-4 mb-0" />
+                  <span class="float-right">mm</span>
+                  <hr class="w-full mt-4 mb-0" />
                   <span class="inch pull-left value">{(external_long * mmtoinch).toFixed(2)} X {(external_width * mmtoinch).toFixed(2)} X {(external_height * mmtoinch).toFixed(2)}</span>
-                  <span class="pull-right">in</span>
+                  <span class="float-right">in</span>
                 </td>
               </tr>
               {internal_long && (
@@ -123,10 +137,10 @@ export async function getStaticPaths() {
                   </td>
                   <td class="internal-dimension">
                     <span class="mm pull-left value">{internal_long} X {internal_width} X {internal_height}</span>
-                    <span class="pull-right">mm</span>
-                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="float-right">mm</span>
+                    <hr class="w-full mt-4 mb-0" />
                     <span class="inch pull-left value">{(internal_long * mmtoinch).toFixed(2)} X {(internal_width * mmtoinch).toFixed(2)} X {(internal_height * mmtoinch).toFixed(2)}</span>
-                    <span class="pull-right">in</span>
+                    <span class="float-right">in</span>
                   </td>
                 </tr>
               )}
@@ -138,10 +152,10 @@ export async function getStaticPaths() {
                   </td>
                   <td class="internal-dimension">
                     <span class="mm pull-left value">{folded_height}</span>
-                    <span class="pull-right">mm</span>
-                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="float-right">mm</span>
+                    <hr class="w-full mt-4 mb-0" />
                     <span class="inch pull-left value">{(folded_height * mmtoinch).toFixed(2)}</span>
-                    <span class="pull-right">in</span>
+                    <span class="float-right">in</span>
                   </td>
                 </tr>
               )}
@@ -152,10 +166,10 @@ export async function getStaticPaths() {
                   </td>
                   <td class="internal-dimension">
                     <span class="kg pull-left value">{weight}</span>
-                    <span class="pull-right">kg</span>
-                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="float-right">kg</span>
+                    <hr class="w-full mt-4 mb-0" />
                     <span class="lbs pull-left value">{(weight * kgtolbs).toFixed(2)}</span>
-                    <span class="pull-right">lbs</span>
+                    <span class="float-right">lbs</span>
                   </td>
                 </tr>
               )}
@@ -166,10 +180,10 @@ export async function getStaticPaths() {
                   </td>
                   <td class="internal-dimension">
                     <span class="liters pull-left value">{volumn}</span>
-                    <span class="pull-right">Liters</span>
-                    <hr class="w-100 mt-4 mb-0" />
+                    <span class="float-right">Liters</span>
+                    <hr class="w-full mt-4 mb-0" />
                     <span class="gallon pull-left value">{(volumn * ltogal).toFixed(2) }</span>
-                    <span class="pull-right">Us gallon</span>
+                    <span class="float-right">Us gallon</span>
                   </td>
                 </tr>
               )}
@@ -187,10 +201,7 @@ export async function getStaticPaths() {
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         {relatedProducts.map(product => (
           <ProductCardForCat
-            title={product.title}
-            slug={product.slug}
-            description={product.description}
-            images_arr={product.images_arr}
+            product={product}
           />
         ))}
 
@@ -248,7 +259,7 @@ export async function getStaticPaths() {
         }
       
     </script>
-  </body>
+  </div>
 </Layout>
 
 <style>
@@ -269,7 +280,56 @@ export async function getStaticPaths() {
     margin: 5px 0;
   }
 
+  .single-product-attr td .float-right{
+    font-weight: bold;
+    color: var(--color-themecolor-800);
+  }
 
+.table-bordered td, .table-bordered th {
+  border: 1px solid #dee2e6;
+}
+.table-hover {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #212529;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+/* Table head */
+.table-hover thead {
+  background-color: #f8f9fa;
+}
+
+.table-hover thead th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Table body */
+.table-hover tbody tr {
+  transition: background-color 0.2s ease;
+}
+.table-hover tbody tr td:first-child {
+  min-width: 180px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--color-neutral-300); /* Light gray on hover */
+  cursor: pointer;
+}
+
+.table-hover td {
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.table h6{
+  font-weight: bold;
+}
 
 
 </style>

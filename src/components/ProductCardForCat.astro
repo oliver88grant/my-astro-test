@@ -1,15 +1,31 @@
 ---
 import '@splidejs/splide/css';
 import 'vlitejs/vlite.css';
-import { cdnDomain, originalDomain } from '@/config';
+import { cdnDomain, originalDomain, mmtoinch } from '@/config';
 // Props for the component
-interface Props {
-  title: string;
-  slug: string;
-  description: string;
-  images_arr: { mime: string; url: string }[];
+
+interface Product {
+  title?: string;
+  slug?: string;
+  description?: string;
+  short_title?: string;
+  product_model?: string;
+  images_arr?: Array<any>;
 }
-const { title, slug, description, images_arr } = Astro.props;
+interface Props {
+  product: Product
+}
+const { product } = Astro.props;
+const { 
+  title, 
+  slug, 
+  description, 
+  images_arr, 
+  product_model, 
+  ["all_attributes_&_external_long"]: external_long,
+  ["all_attributes_&_external_width"]: external_width,
+  ["all_attributes_&_external_height"]: external_height,
+ } = product;
 // Removed redundant export of slug
 // Sort media: video first, then image
 let sortedMedia = [
@@ -28,30 +44,45 @@ sortedMedia=sortedMedia.map(item => {
   
 
 
-  <div class="splide mt-4 cat-product-carousel">
-    <div class="splide__track">
-      <ul class="splide__list">
-        {sortedMedia.map((item, index) => (
-          <li class="splide__slide">
-            {item.mime?.startsWith("video") ? (
-              <div class="video-container w-full h-full relative">
-                <video controls muted class="w-full rounded-lg object-contain h-full cat-product-video">
-                  <source src={item.url} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            ) : (
-              <img src={item.url} alt={item.short_title}} class="w-full rounded-lg object-contain h-full" />
-            )}
-          </li>
-        ))}
-      </ul>
+  <div class="relative">
+    <div class="splide mt-4 cat-product-carousel">
+      <div class="splide__track">
+        <ul class="splide__list">
+          {sortedMedia.map((item, index) => (
+            <li class="splide__slide">
+              {item.mime?.startsWith("video") ? (
+                <div class="video-container w-full h-full relative">
+                  <video controls muted class="w-full rounded-lg object-contain h-full cat-product-video">
+                    <source src={item.url} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              ) : (
+                <img src={item.url} alt={item.short_title}} class="w-full rounded-lg object-contain h-full" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
+    <button class="absolute top-0 btn btn-primary inquiry-btn btn-sm" data-model={product_model}>Inquiry</button>
   </div>
-  <h2 class="text-lg font-bold line-clamp-2 hover:underline capitalize">
+  
+  <h2 class="font-bold line-clamp-2 hover:underline capitalize">
     <a href={`/products/${slug}`}>{title}</a>
-    
   </h2>
+  <div class="extra-product-info bg-neutral-100 p-1">
+    {external_long && external_width && external_height ?(
+        <div class="item-key font-bold my-2">Dimension</div>
+        <div class="item-value">{external_long}  * {external_width}  * {external_height}<span
+            class="float-right">(mm)</span></div>
+        <div class="item-value">{(external_long * mmtoinch).toFixed(2)}  * {(external_width  * mmtoinch).toFixed(2)}  * {(external_height  * mmtoinch).toFixed(2)}
+          <span class="float-right">(inch)</span>
+        </div>
+   
+    ) : null}
+    
+  </div>
 </div>
 
 <style>
@@ -60,6 +91,8 @@ sortedMedia=sortedMedia.map(item => {
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
   }
   .media {
     display: flex;

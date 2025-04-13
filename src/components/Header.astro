@@ -1,134 +1,181 @@
 ---
-// components/Header.astro
-interface NavItem {
-  label: string;
-  href: string;
-  dropdown?: NavItem[];
-}
-
-interface Props {
-  logo: string;
-  navItems: NavItem[];
-}
-
-const { 
-  logo = '/logo.svg', 
+const {
+  logo = '/logo.svg',
   navItems = [
     { label: 'Home', href: '/' },
     { label: 'Shop', href: '/shop' },
-    { 
-      label: 'Categories', 
-      href: '/categories', 
+    {
+      label: 'Categories',
+      href: '/categories',
       dropdown: [
         { label: 'Electronics', href: '/categories/electronics' },
         { label: 'Clothing', href: '/categories/clothing' },
-        { label: 'Accessories', href: '/categories/accessories' }
-      ]
+        { label: 'Accessories', href: '/categories/accessories' },
+      ],
     },
     { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' }
-  ]
+    { label: 'Contact', href: '/contact' },
+  ],
 } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+console.log(currentPath, "ddd")
 ---
 
-<header class="bg-white shadow-md">
-  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-    <!-- Logo -->
-    <a href="/" class="flex items-center">
-      <img src={logo} alt="Store Logo" class="h-10 w-auto"/>
-    </a>
+<header class="bg-navbar-bg shadow-md header-menu">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="text-xl font-bold text-navbar-logo">
+        {logo.endsWith('.svg') || logo.endsWith('.png') || logo.endsWith('.jpg') ? (
+          <img src={logo} alt="MyStore Logo" class="h-8 w-auto" />
+        ) : (
+          'MyStore'
+        )}
+      </a>
 
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex space-x-6 items-center">
-      {navItems.map(item => (
-        <div class="desktop-nav-item relative group">
-          <a 
-            href={item.href} 
-            class="text-gray-800 hover:text-primary transition-colors flex items-center"
-          >
-            {item.label}
-            {item.dropdown && (
-              <svg 
-                class="w-4 h-4 ml-1 transform transition-transform group-hover:rotate-180" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+      <!-- Hamburger Button for Mobile -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-navbar-text focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Desktop Menu -->
+      <ul class="hidden md:flex space-x-6 items-center">
+        {
+          navItems.map((item) => (
+            <li class={item.dropdown ? 'relative group' : ''}>
+              <a
+                href={item.href}
+                class={`${
+                  currentPath === item.href ||
+                  currentPath?.startsWith(item.href) ||
+                  (item.dropdown && currentPath.startsWith(item.href))
+                    ? 'menu-navbar-active font-semibold'
+                    : ''
+                } text-navbar-text hover:text-navbar-text-hover transition-colors `}
               >
-                <path 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round" 
-                  stroke-width="2" 
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            )}
-          </a>
-
-          {item.dropdown && (
-            <div class="desktop-dropdown absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 py-2 w-48 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out">
-              {item.dropdown.map(subItem => (
-                <a 
-                  href={subItem.href} 
-                  class="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                {item.label}
+                {item.dropdown && (
+                  <svg
+                    class="inline-block w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                )}
+              </a>
+              {item.dropdown && (
+                <ul
+                  class="absolute left-0 top-full mt-0 w-48 bg-navbar-dropdown-bg shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-10"
                 >
-                  {subItem.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-    </nav>
+                  {item.dropdown.map((subItem) => (
+                    <li>
+                      <a
+                        href={subItem.href}
+                        class={`block px-4 py-2 text-navbar-dropdown-text hover:bg-navbar-dropdown-hover hover:text-navbar-text-hover ${
+                          currentPath === subItem.href ? 'menu-navbar-active font-semibold' : ''
+                        }`}
+                      >
+                        {subItem.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
-    <!-- Rest of the header remains the same -->
-  </div>
+    <!-- Mobile Menu (Hidden by Default) -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <ul class="flex flex-col space-y-2 mt-4">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class={`${
+                  currentPath === item.href ||
+                  (item.href === '/shop' && currentPath === '/best-sellers') ||
+                  (item.dropdown && currentPath.startsWith(item.href))
+                    ? 'menu-navbar-active font-semibold'
+                    : ''
+                } block py-2 text-navbar-text hover:text-navbar-text-hover transition-colors`}
+              >
+                {item.label}
+              </a>
+              {item.dropdown && (
+                <ul class="pl-4 space-y-2">
+                  {item.dropdown.map((subItem) => (
+                    <li>
+                      <a
+                        href={subItem.href}
+                        class={`${
+                          currentPath === subItem.href ? 'menu-navbar-active font-semibold' : ''
+                        } block py-1 text-navbar-dropdown-text hover:text-navbar-text-hover`}
+                      >
+                        {subItem.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const desktopNavItems = document.querySelectorAll('.desktop-nav-item');
+  // Toggle mobile menu
+  const button = document.getElementById('mobile-menu-button');
+  const menu = document.getElementById('mobile-menu');
 
-    desktopNavItems.forEach(item => {
-      const dropdown = item.querySelector('.desktop-dropdown');
-      
-      if (dropdown) {
-        // Create a larger hover area to prevent dropdown from disappearing
-        const hoverArea = document.createElement('div');
-        hoverArea.classList.add('desktop-dropdown-hover-area');
-        hoverArea.style.position = 'absolute';
-        hoverArea.style.left = '0';
-        hoverArea.style.right = '0';
-        hoverArea.style.height = '30px';
-        hoverArea.style.top = '100%';
-        
-        item.style.position = 'relative';
-        item.appendChild(hoverArea);
-
-        // Prevent dropdown from disappearing when moving to submenu
-        hoverArea.addEventListener('mouseenter', () => {
-          dropdown.classList.remove('hidden');
-          dropdown.classList.add('opacity-100');
-        });
-
-        hoverArea.addEventListener('mouseleave', () => {
-          dropdown.classList.add('hidden');
-          dropdown.classList.remove('opacity-100');
-        });
-      }
-    });
+  button.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
   });
 </script>
 
 <style>
-  .desktop-dropdown {
-    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+  /* Custom styles for shadow and transitions using theme variables */
+  header {
+    box-shadow: 0 2px 4px var(--navbar-shadow, #e5e7eb);
   }
-
-  /* Ensure dropdown is visible when hovering over nav item or hover area */
-  .desktop-nav-item:hover .desktop-dropdown,
-  .desktop-dropdown-hover-area:hover + .desktop-dropdown,
-  .desktop-dropdown:hover {
-    display: block !important;
-    opacity: 1 !important;
+  .group:hover .group-hover\:pointer-events-auto {
+    pointer-events: auto;
+  }
+  .header-menu{
+    .menu-navbar-active{
+      color: var(--navbar-active)
+    }
   }
 </style>

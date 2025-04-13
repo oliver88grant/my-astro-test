@@ -9,20 +9,23 @@ const {
   title = "My Astro Shop",
   description = "Default site description",
   ogImage = "/default-og.png",
+  pageWrapClass = "max-w-6xl mx-auto p-6",
 } = Astro.props;
 
 
 const navItems = [
-  { label: 'Home', href: '/' },
+  // { label: 'Home', href: '/' },
   { label: 'Products', href: '/products' },
-  { 
-    label: 'Shop', 
-    href: '/shop',
-    dropdown: [
-      { label: 'New Arrivals', href: '/shop/new' },
-      { label: 'Best Sellers', href: '/shop/best-sellers' }
-    ]
-  },
+  { label: 'New Arrivals', href: '/new' },
+  { label: 'Best Sellers', href: '/best-sellers' },
+  // { 
+  //   label: 'Shop', 
+  //   href: '/shop',
+  //   dropdown: [
+  //     { label: 'New Arrivals', href: '/shop/new' },
+  //     { label: 'Best Sellers', href: '/shop/best-sellers' }
+  //   ]
+  // },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' }
 ];
@@ -57,7 +60,7 @@ const navItems = [
 	/>
 
     <!-- Main content -->
-    <main class="max-w-6xl mx-auto p-6">
+    <main class={pageWrapClass}>
       <slot />
     </main>
 

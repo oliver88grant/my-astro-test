@@ -17,10 +17,7 @@ const currentProducts = products.slice(0, pageSize);
     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
       {currentProducts.map((product) => (
         <ProductCardForCat
-          title={product.title}
-          slug={product.slug}
-          description={product.description}
-          images_arr={product.images_arr}
+          product={product}
         />
       ))}
     </div>
@@ -67,7 +64,6 @@ const currentProducts = products.slice(0, pageSize);
   .product-list {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
   }
   h1 {
     text-align: center;
