@@ -3,6 +3,8 @@ import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import DemoCom from '../components/DemoCom.jsx';
 import Accordion from '../components/Accordion.astro';
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
+import LanguageSwitchertwo from '@/components/LanguageSwitchertwo.astro';
 
 const faqItems = [
   {
@@ -69,8 +71,15 @@ const faqItems = [
     <p class="bg-themecolor-800 text-white p-2 my-3">Our products undergo rigorous testing to guarantee the highest quality standards, providing clients with peace of mind and uninterrupted power.</p>
   </section>
 
+
+
 	<div class="faq-section bg-white p-6 rounded-lg shadow-md mt-8">
 		<h2 class="text-center text-2xl text-themecolor-800">FAQ</h2>
 		<Accordion items={faqItems} />
 	</div>
+
+  <div>
+    Language Switcher Example:
+    <LanguageSwitchertwo />
+  </div>
 </Layout>

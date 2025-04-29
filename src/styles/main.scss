@@ -4,3 +4,30 @@
 
 
 
+// src/styles/custom-bootstrap.scss
+
+// 1. Include necessary Bootstrap functions and variables FIRST
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark"; // Optional: if you use dark mode
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities"; // Often needed by components
+@import "bootstrap/scss/root"; // Often needed by components
+
+// 2. Include base styles (optional but recommended)
+// @import "bootstrap/scss/root";
+// @import "bootstrap/scss/reboot";
+// @import "bootstrap/scss/type"; // Import if needed
+
+// 3. Include REQUIRED component styles
+// Dropdown itself needs utilities, so ensure they are imported above
+@import "bootstrap/scss/dropdown";
+
+// 4. Include styles for the trigger element (e.g., Button)
+@import "bootstrap/scss/button-group"; // Might be needed depending on structure
+@import "bootstrap/scss/buttons";     // If using a <button> trigger
+
+// 5. Include Bootstrap's utility API last
+@import "bootstrap/scss/utilities/api";
+

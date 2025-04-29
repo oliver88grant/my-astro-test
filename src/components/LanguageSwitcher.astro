@@ -1,0 +1,61 @@
+<div class="dropdown language-switcher">
+  <button
+    class="btn btn-secondary dropdown-toggle"
+    type="button"
+    id="languageDropdownMenuButton"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Language {/* Or dynamically display current language */}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="languageDropdownMenuButton">
+    <li>
+      <a class="dropdown-item" href="https://en.example.com">English</a> {/* Replace */}
+    </li>
+    <li>
+      <a class="dropdown-item" href="https://fr.example.com">Français</a> {/* Replace */}
+    </li>
+    <li>
+      <a class="dropdown-item" href="https://es.example.com">Español</a> {/* Replace */}
+    </li>
+    <li>
+      <a class="dropdown-item" href="https://de.example.com">Deutsch</a> {/* Replace */}
+    </li>
+    <li><hr class="dropdown-divider"></li> {/* Optional divider */}
+    <li>
+      <a class="dropdown-item" href="/some-other-page">Another option</a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  // This script runs on the client
+  import { Dropdown } from 'bootstrap';
+
+  // Find the specific toggle button for *this instance* of the component
+  // Using an ID is okay if the component is used once, but querySelectorAll
+  // or querying relative to a component root is better if used multiple times.
+  // Let's stick to ID for simplicity here, assuming one switcher per page or unique IDs.
+  const dropdownToggleElement = document.getElementById('languageDropdownMenuButton');
+
+  if (dropdownToggleElement) {
+    // Check if a dropdown instance already exists (useful for SPA-like transitions)
+    if (!Dropdown.getInstance(dropdownToggleElement)) {
+        console.log('Initializing Bootstrap Dropdown for:', dropdownToggleElement.id);
+        new Dropdown(dropdownToggleElement);
+    }
+
+    // Optional: Handle Astro page transitions if needed
+    // Astro's default MPA-style transitions usually don't require manual cleanup,
+    // but if you use View Transitions or client-side routing, you might need cleanup.
+    // document.addEventListener('astro:before-swap', () => {
+    //    const instance = Dropdown.getInstance(dropdownToggleElement);
+    //    if (instance) {
+    //        instance.dispose();
+    //    }
+    // }, { once: true });
+
+  } else {
+    console.warn('Dropdown toggle element #languageDropdownMenuButton not found for initialization.');
+  }
+</script>

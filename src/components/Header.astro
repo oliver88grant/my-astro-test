@@ -20,6 +20,7 @@ const {
 
 const currentPath = Astro.url.pathname;
 console.log(currentPath, "ddd")
+import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 ---
 
 <header class="bg-navbar-bg shadow-md header-menu">
@@ -33,6 +34,11 @@ console.log(currentPath, "ddd")
           'MyStore'
         )}
       </a>
+
+      <div class="md:hidden">
+        <LanguageSwitcher />
+      </div>
+     
 
       <!-- Hamburger Button for Mobile -->
       <button
@@ -110,6 +116,7 @@ console.log(currentPath, "ddd")
             </li>
           ))
         }
+        <LanguageSwitcher />
       </ul>
     </div>
 

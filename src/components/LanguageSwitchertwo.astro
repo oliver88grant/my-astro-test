@@ -1,0 +1,34 @@
+---
+// components/LanguageSwitcher.astro
+const currentLang = Astro.url.pathname.split('/')[1] || 'en'
+
+const languages = [
+  { code: 'en', label: 'English' },
+  { code: 'id', label: 'Bahasa Indonesia' },
+  { code: 'vi', label: 'Tiếng Việt' },
+  { code: 'fr', label: 'Français' }
+]
+---
+
+<div class="relative group inline-block text-left">
+  <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 cursor-pointer">
+    🌐 {languages.find(l => l.code === currentLang)?.label || 'Language'}
+    <svg class="w-4 h-4 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
+
+  <!-- Dropdown menu (hidden by default, shown on hover) -->
+  <div class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200">
+    <div class="py-1">
+      {languages.map(lang => (
+        <a
+          href={`/${lang.code}/`}
+          class={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${lang.code === currentLang ? 'font-semibold' : ''}`}
+        >
+          {lang.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
