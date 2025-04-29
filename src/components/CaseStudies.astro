@@ -1,0 +1,185 @@
+---
+// src/components/CaseStudies.astro
+
+// 1. Import Swiper CSS (core and navigation module)
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+// 2. Define Case Study Data (add image URLs and details)
+// Replace placeholders with your actual data and image paths (relative to the `public` folder)
+const cases = [
+    {
+        title: "Manufacturing Plant Power Backup",
+        image: "/images/case-study-1.jpg", // Example path: place image in `public/images/`
+        details: "Implemented a 500kVA parallel redundant system ensuring zero downtime for critical production lines during frequent grid fluctuations. Reduced production losses by 15%.",
+        company: "Factory Automation Ltd." // Optional: Can display this too
+    },
+    {
+        title: "Hospital Emergency Power",
+        image: "/images/case-study-2.jpg",
+        details: "Deployed a centralized UPS solution for operating theatres and life support equipment, guaranteeing uninterrupted power compliant with healthcare regulations.",
+        company: "City General Hospital"
+    },
+    {
+        title: "Data Center Scalability",
+        image: "/images/case-study-3.jpg",
+        details: "Provided modular UPS units allowing the data center to scale its power protection incrementally from 100kW to 1MW, optimizing initial investment.",
+        company: "CloudServe Inc."
+    },
+    {
+        title: "Retail Chain POS Protection",
+        image: "/images/case-study-4.jpg",
+        details: "Outfitted 50+ retail locations with compact UPS systems for Point-of-Sale terminals, preventing transaction failures during brief outages.",
+        company: "QuickMart Stores"
+    },
+    // Add up to 10 cases here...
+    {
+        title: "Remote Telecom Tower",
+        image: "/images/case-study-5.jpg",
+        details: "Installed high-temperature rated UPS with extended battery runtime for a remote cellular tower, ensuring communication reliability in harsh conditions.",
+        company: "Connect Mobile"
+    },
+];
+---
+
+<section id="cases" class="bg-gray-100 relative">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-900">
+            Customer Success Stories
+        </h2>
+
+        {/* Swiper Container */}
+        <div class="swiper case-studies-swiper">
+            <div class="swiper-wrapper pb-4"> {/* Added padding-bottom if overlays slightly extend */}
+                {cases.map((study) => (
+                    // === Slide Structure Start ===
+                    <div class="swiper-slide group relative overflow-hidden rounded-lg shadow-lg aspect-video sm:aspect-[16/12]">
+
+                        {/* 1. Background Image (always present, slight zoom on hover) */}
+                        <img
+                            src={study.image}
+                            alt={`Case study for ${study.company || study.title}`}
+                            loading="lazy"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"/>
+
+                        {/* 2. Initial Title Overlay (Visible by default, fades out on hover) */}
+                        <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent z-10 transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+                            <h3 class="text-white text-lg font-semibold truncate">{study.title}</h3>
+                            {study.company && <p class="text-gray-200 text-sm truncate">{study.company}</p>}
+                        </div>
+
+                        {/* 3. Hover Details Overlay (Hidden by default, fades in on hover) */}
+                        <div
+                            class="absolute inset-0 p-6 z-20
+                                   bg-blue-900/85 backdrop-blur-sm
+                                   transition-opacity duration-300 ease-in-out group-hover:!opacity-100 opacity-0
+                                   flex flex-col justify-center items-center
+                                  "
+                        >
+                            <p class="text-blue-100 text-sm line-clamp-7"> {/* Adjust line-clamp as needed */}
+                                {study.details}
+                            </p>
+                        </div>
+
+                    </div>
+                ))}
+            </div>
+
+             {/* === Navigation Arrows Wrapper (Inside .swiper, after .swiper-wrapper) === */}
+            <div class="flex justify-center items-center space-x-4 mt-2 gap-4 p-1"> {/* Centering wrapper */}
+                {/* Previous Arrow */}
+                <button class="swiper-button-prev static p-0 m-0 /* Reset Swiper default positioning */
+                        bg-white hover:bg-gray-200 shadow-md rounded-full
+                        w-10 h-10 sm:w-12 sm:h-12
+                        flex items-center justify-center
+                        text-gray-600 hover:text-blue-600 transition-colors duration-300
+                        cursor-pointer
+                        after:!text-lg after:!content-['prev']"> {/* Keep ::after content */}
+                    <span class="sr-only">Previous Case Study</span> {/* Accessibility */}
+                </button>
+
+                {/* Next Arrow */}
+                <button class="swiper-button-next static p-0 m-0 /* Reset Swiper default positioning */
+                        bg-white hover:bg-gray-200 shadow-md rounded-full
+                        w-10 h-10 sm:w-12 sm:h-12
+                        flex items-center justify-center
+                        text-gray-600 hover:text-blue-600 transition-colors duration-300
+                        cursor-pointer
+                        after:!text-lg after:!content-['next']"> {/* Keep ::after content */}
+                    <span class="sr-only">Next Case Study</span> {/* Accessibility */}
+                </button>
+            </div>
+        </div>
+
+      
+    </div>
+</section>
+
+{/* 6. Client-side script to initialize Swiper */}
+<script>
+    // Import Swiper core and required modules
+    import Swiper from 'swiper';
+    import { Navigation } from 'swiper/modules'; // Import Navigation module
+
+    // Initialize Swiper instance(s)
+    // Target the unique class name we assigned: '.case-studies-swiper'
+    const swiper = new Swiper('.case-studies-swiper', {
+        // Use Navigation module
+        modules: [Navigation],
+
+        // Configuration options
+        loop: true, // Enable continuous loop mode
+        slidesPerView: 1, // Default slides per view (mobile)
+        spaceBetween: 20, // Space between slides
+
+        // Responsive breakpoints
+        breakpoints: {
+            // when window width is >= 640px (sm)
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            // when window width is >= 1024px (lg)
+            1024: {
+                slidesPerView: 3, // Show 3 slides on larger screens
+                spaceBetween: 30
+            }
+        },
+
+        // Navigation arrows configuration
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        // Optional: Add autoplay if desired
+        // autoplay: {
+        //   delay: 5000, // 5 seconds
+        //   disableOnInteraction: false, // Don't stop autoplay on user interaction
+        // },
+
+         // Accessibility features (recommended)
+        a11y: {
+            prevSlideMessage: 'Previous case study',
+            nextSlideMessage: 'Next case study',
+        },
+    });
+</script>
+
+<style is:global>
+    /* Override Swiper's default absolute positioning for buttons WHEN they are NOT disabled */
+    .case-studies-swiper .swiper-button-prev,
+    .case-studies-swiper .swiper-button-next {
+        position: static; /* Use static positioning */
+        /* Reset margins/transforms Swiper might add */
+        margin-top: 0;
+        transform: none;
+    }
+
+    /* Hide the ::after pseudo-element if using custom icons inside the buttons */
+    /* If you replace ::after content with SVG or text inside the button: */
+    /* .case-studies-swiper .swiper-button-prev::after,
+    .case-studies-swiper .swiper-button-next::after {
+        display: none;
+    } */
+</style>

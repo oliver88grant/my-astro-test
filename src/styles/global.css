@@ -3,7 +3,7 @@
 
 :root {
   --navbar-bg: #ffffff; /* White */
-  --navbar-text: #4b5563; /* Gray-600 */
+  --navbar-text: var(--color-gray-900); /* Gray-600 */
   --navbar-text-hover: #2563eb; /* Blue-600 */
   --navbar-active: #2563eb; /* Blue-600 */
   --navbar-logo: #1f2937; /* Gray-800 */

@@ -10,7 +10,8 @@ const languages = [
 ]
 ---
 
-<div class="relative group inline-block text-left">
+<div class="relative group inline-block text-left pb-2"> {/* Added pb-2 */}
+  <!-- Trigger -->
   <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 cursor-pointer">
     🌐 {languages.find(l => l.code === currentLang)?.label || 'Language'}
     <svg class="w-4 h-4 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,8 +19,8 @@ const languages = [
     </svg>
   </div>
 
-  <!-- Dropdown menu (hidden by default, shown on hover) -->
-  <div class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-opacity duration-200">
+  {/* Make the dropdown part of the direct flow initially for hover, position it visually */}
+   <div class="absolute left-0 top-full z-10 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 group-hover:!opacity-100 group-hover:!scale-100 invisible group-hover:!visible transition-all duration-150 ease-out pointer-events-none group-hover:!pointer-events-auto"> {/* Adjusted classes for transition */}
     <div class="py-1">
       {languages.map(lang => (
         <a
