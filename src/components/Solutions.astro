@@ -1,0 +1,162 @@
+---
+const tabs = [
+  {
+    id: 'datacenter',
+    title: 'Data Centers',
+    link: '/solutions/data-centers',
+    heading: 'Data Center Protection',
+    description:
+      'Our enterprise-grade UPS systems ensure continuous power for data centers of all sizes, from edge deployments to hyperscale facilities.',
+    bullets: [
+      'N+1 and 2N redundant configurations',
+      'Modular, scalable architecture',
+      'Remote monitoring and management',
+      'Integration with DCIM systems',
+    ],
+    image: 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    id: 'healthcare',
+    title: 'Healthcare',
+    link: '/solutions/healthcare',
+    heading: 'Healthcare Facilities',
+    description:
+      'Medical equipment requires the highest level of power protection. Our healthcare UPS solutions ensure patient safety by providing clean, uninterrupted power.',
+    bullets: [
+      'Medical-grade power quality',
+      'Extended runtime options',
+      'Low acoustic noise operation',
+      'Compliant with healthcare regulations',
+    ],
+    image: 'https://images.pexels.com/photos/4226119/pexels-photo-4226119.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    id: 'industrial',
+    title: 'Industrial',
+    link: '/solutions/industrial',
+    heading: 'Industrial Applications',
+    description:
+      'Industrial environments demand rugged, reliable power protection. Our industrial UPS systems are designed to withstand harsh conditions.',
+    bullets: [
+      'Extended temperature range operation',
+      'Vibration and dust resistance',
+      'Support for high inrush currents',
+      'Integration with industrial control systems',
+    ],
+    image: 'https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    id: 'small-business',
+    title: 'Small Business',
+    link: '/solutions/small-business',
+    heading: 'Small Business Protection',
+    description:
+      'Affordable, easy-to-deploy UPS solutions that keep small business operations running during power events.',
+    bullets: [
+      'Cost-effective power protection',
+      'Easy installation and management',
+      'Protection for point-of-sale systems',
+      'Network and server protection',
+    ],
+    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+];
+---
+
+<section class="py-20" id="solutions">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-3xl font-bold mb-4">UPS Solutions</h2>
+      <p class="text-gray-600 dark:text-gray-300">
+        Customized UPS solutions designed for the unique requirements of different sectors.
+      </p>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+      <!-- Tabs -->
+      <div id="solution-tabs" class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8">
+        {tabs.map((tab, index) => (
+          <button
+            class="tab-btn px-4 py-2 border text-sm font-medium rounded transition"
+            class:list={index === 0 ? 'bg-blue-600 text-white' : 'border-gray-300 text-gray-700'}
+            data-tab={tab.id}
+          >
+            {tab.title}
+          </button>
+        ))}
+      </div>
+
+      <!-- Tab content -->
+      <div id="solution-contents">
+        {tabs.map((tab, index) => (
+          <div
+            class="tab-content hidden"
+            data-tab={tab.id}
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-4">
+              <div>
+                <h3 class="text-2xl font-bold mb-4">{tab.heading}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">{tab.description}</p>
+                <ul class="space-y-2">
+                  {tab.bullets.map((text) => (
+                    <li class="flex items-center">
+                      <svg class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 111.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                      <span>{text}</span>
+                    </li>
+                  ))}
+                </ul>
+                {/* <a
+                  href={tab.link}
+                  class="mt-6 inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium"
+                >
+                  Explore {tab.title} Solutions
+                </a> */}
+              </div>
+              <div class="relative h-[300px] rounded-lg overflow-hidden">
+                <img
+                  src={tab.image}
+                  alt={tab.heading}
+                  class="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.tab-btn');
+      const contents = document.querySelectorAll('.tab-content');
+
+      // Set first tab as active
+      if (tabs.length && contents.length) {
+        tabs[0].classList.add('bg-blue-600', 'text-white');
+        contents[0].classList.remove('hidden');
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const selectedTab = tab.getAttribute('data-tab');
+
+          tabs.forEach((t) =>
+            t.classList.remove('bg-blue-600', 'text-white')
+          );
+          tab.classList.add('bg-blue-600', 'text-white');
+
+          contents.forEach((content) => {
+            if (content.getAttribute('data-tab') === selectedTab) {
+              content.classList.remove('hidden');
+            } else {
+              content.classList.add('hidden');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</section>

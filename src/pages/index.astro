@@ -7,6 +7,12 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import LanguageSwitchertwo from '@/components/LanguageSwitchertwo.astro';
 import CaseStudies from '@/components/CaseStudies.astro';
 import HeroSection from '@/components/HeroSection.astro';
+import ProductCategories from '@/components/ProductCategories.astro';
+import WhyChooseUs from '@/components/WhyChooseUs.astro';
+
+import Solutions from '@/components/Solutions.astro';
+import AboutUs from '@/components/AboutUs.astro';
+import ContactUs from '@/components/ContactUs.astro';
 
 const faqItems = [
   {
@@ -31,19 +37,41 @@ const faqItems = [
 	<!-- <Welcome />
 	<DemoCom /> -->
   <HeroSection />
+
+  {/* Product Categories */}
+  <section class="py-20 bg-gray-50 dark:bg-gray-900" id="products">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl font-bold mb-4">UPS Product Categories for Every Need</h2>
+        <p class="text-gray-600 dark:text-gray-300">
+          Explore our comprehensive range of uninterruptible power supplies designed for various applications and environments.
+        </p>
+      </div>
+      
+      <ProductCategories />
+      
+      <div class="text-center mt-12">
+        <!-- <Button size="lg" asChild>
+          <Link href="/products">
+            View All Products <ArrowRight class="ml-2 h-4 w-4" />
+          </Link>
+        </Button> -->
+      </div>
+    </div>
+  </section>
   
 	
 
+  <WhyChooseUs />
+  <Solutions />
 
-	<div class="faq-section bg-white p-6 rounded-lg shadow-md mt-8">
-		<h2 class="text-center text-2xl text-themecolor-800">FAQ</h2>
-		<Accordion items={faqItems} />
-	</div>
+  <AboutUs />
 
-  <div>
-    <CaseStudies />
-    
-  </div>
+
+  <CaseStudies />
+
+  <ContactUs />
+
 
   
 </Layout>
