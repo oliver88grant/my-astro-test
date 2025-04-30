@@ -1,0 +1,120 @@
+---
+import { salesEmail } from '@/config/const.js';
+import { MailIcon } from '@/components/Icons.jsx';
+const footerLinks = [
+  {
+    title: 'Products',
+    links: [
+      { name: 'Online UPS', href: '/products/online-ups' },
+      { name: 'Offline UPS', href: '/products/offline-ups' },
+      { name: 'Line-Interactive UPS', href: '/products/line-interactive-ups' },
+      { name: 'Modular UPS', href: '/products/modular-ups' },
+      { name: 'Accessories', href: '/products/accessories' },
+    ],
+  },
+  {
+    title: 'Solutions',
+    links: [
+      { name: 'Data Centers', href: '/solutions/data-centers' },
+      { name: 'Healthcare', href: '/solutions/healthcare' },
+      { name: 'Industrial', href: '/solutions/industrial' },
+      { name: 'Education', href: '/solutions/education' },
+      { name: 'Small Business', href: '/solutions/small-business' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { name: 'Technical Support', href: '/support/technical' },
+      { name: 'Documentation', href: '/support/documentation' },
+      { name: 'Downloads', href: '/support/downloads' },
+      { name: 'FAQs', href: '/support/faqs' },
+      { name: 'Warranty Information', href: '/support/warranty' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { name: 'About Us', href: '/about' },
+      { name: 'Contact Us', href: '/contact' },
+      { name: 'Careers', href: '/careers' },
+      { name: 'News', href: '/news' },
+      { name: 'Terms & Conditions', href: '/terms' },
+    ],
+  },
+];
+---
+
+<footer class="bg-gray-50 dark:bg-gray-900">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Newsletter -->
+    <div class="border-t border-gray-200 dark:border-gray-800 py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Subscribe to our newsletter</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+            Stay updated with the latest product releases, special offers, and news.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input type="email" placeholder="Enter your email" class="flex-grow px-4 py-2 rounded border border-gray-300" />
+          <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Subscribe</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Footer -->
+    <div class="py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- Company Info -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center">
+            <span class="text-2xl font-bold text-blue-600">RhimoPower</span>
+          </div>
+          <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">
+            Reliable power protection solutions for businesses of all sizes. Keeping your critical systems running when power fails.
+          </p>
+          <div class="mt-6 space-y-4">
+
+            <div class="flex items-center">
+              <MailIcon className="w-5 h-5 text-gray-500 mr-1" />
+              <span class="text-sm text-gray-600 dark:text-gray-300">{salesEmail}</span>
+            </div>
+            <div class="flex items-start">
+              
+              <span class="text-sm text-gray-600 dark:text-gray-300">
+                5643 Power Avenue<br />Tech Park, CA 90210<br />China
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        {footerLinks.map(group => (
+          <div>
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">{group.title}</h3>
+            <ul class="mt-4 space-y-3">
+              {group.links.map(link => (
+                <li>
+                  <a href={link.href} class="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600">{link.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-200 dark:border-gray-800 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-gray-500 dark:text-gray-400">&copy; {new Date().getFullYear()} RhimoPower UPS. All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="/privacy" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Privacy Policy</a>
+          <a href="/terms" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Terms of Service</a>
+          <a href="/cookies" class="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

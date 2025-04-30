@@ -19,24 +19,21 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-// import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
+import LanguageSwitcher from '@/components/LanguageSwitchertwo.astro';
 ---
 
 <header class="bg-navbar-bg shadow-md header-menu sticky top-0 z-50">
-  <nav class="container mx-auto px-4 py-4">
+  <nav class="container mx-auto py-4 px-4 sm:px-6 lg:px-20">
     <div class="flex items-center justify-between">
       <!-- Logo -->
-      <a href="/" class="text-xl font-bold text-navbar-logo">
-        {logo.endsWith('.svg') || logo.endsWith('.png') || logo.endsWith('.jpg') ? (
-          <img src={logo} alt="MyStore Logo" class="h-8 w-auto" />
-        ) : (
-          'MyStore'
-        )}
+      <a class="flex items-center" href="/">
+        <span class="text-2xl font-bold text-primary">RhimoPower</span>
+        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ml-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">UPS</div>
       </a>
 
-      <!-- <div class="md:hidden">
+      <div class="md:hidden">
         <LanguageSwitcher />
-      </div> -->
+      </div>
      
 
       <!-- Hamburger Button for Mobile -->
@@ -95,27 +92,32 @@ const currentPath = Astro.url.pathname;
                 )}
               </a>
               {item.dropdown && (
-                <ul
-                  class="absolute left-0 top-full mt-0 w-48 bg-navbar-dropdown-bg shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-10"
-                >
-                  {item.dropdown.map((subItem) => (
-                    <li>
-                      <a
-                        href={subItem.href}
-                        class={`block px-4 py-2 text-navbar-dropdown-text hover:bg-navbar-dropdown-hover hover:text-navbar-text-hover ${
-                          currentPath === subItem.href ? 'menu-navbar-active font-semibold' : ''
-                        }`}
-                      >
-                        {subItem.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <div class="absolute left-0 top-full pt-5 w-48 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto z-10">
+                  <ul
+                    class="bg-navbar-dropdown-bg shadow-lg rounded-md ring-1 ring-gray-200 ring-opacity-10"
+                  >
+                    {item.dropdown.map((subItem) => (
+                      <li>
+                        <a
+                          href={subItem.href}
+                          class={`block px-4 py-2 text-navbar-dropdown-text hover:bg-navbar-dropdown-hover hover:text-navbar-text-hover ${
+                            currentPath === subItem.href ? 'menu-navbar-active font-semibold' : ''
+                          }`}
+                        >
+                          {subItem.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
             </li>
           ))
         }
-        <!-- <LanguageSwitcher /> -->
+        <div class="hidden md:block">
+          <LanguageSwitcher />
+        </div>
+        
       </ul>
     </div>
 
@@ -166,15 +168,19 @@ const currentPath = Astro.url.pathname;
   const button = document.getElementById('mobile-menu-button');
   const menu = document.getElementById('mobile-menu');
 
-  button.addEventListener('click', () => {
-    menu.classList.toggle('hidden');
-  });
+  if (button) {
+    button.addEventListener('click', () => {
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    });
+  }
 </script>
 
 <style>
   /* Custom styles for shadow and transitions using theme variables */
   header {
-    box-shadow: 0 2px 4px var(--navbar-shadow, #e5e7eb);
+    /* box-shadow: 0 2px 4px var(--navbar-shadow, #e5e7eb); */
   }
   .group:hover .group-hover\:pointer-events-auto {
     pointer-events: auto;

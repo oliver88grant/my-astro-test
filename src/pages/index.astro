@@ -6,6 +6,7 @@ import Accordion from '../components/Accordion.astro';
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import LanguageSwitchertwo from '@/components/LanguageSwitchertwo.astro';
 import CaseStudies from '@/components/CaseStudies.astro';
+import HeroSection from '@/components/HeroSection.astro';
 
 const faqItems = [
   {
@@ -29,49 +30,9 @@ const faqItems = [
 <Layout>
 	<!-- <Welcome />
 	<DemoCom /> -->
-  <section class="bg-gray-200 p-20 my-10">
-    <h2 class="my-5 text-2xl text-themecolor-800 font-extrabold">The main theme color is --color-themecolor-800</h2>
-    <div class="w-40 h-20 bg-themecolor-800 text-white flex items-center justify-center my-1">bg-themecolor-800</div>
-    <div class="w-40 h-20 bg-themecolor-900 text-white flex items-center justify-center my-1">bg-themecolor-900</div>
-  </section>
+  <HeroSection />
+  
 	
-  <section class="bg-gray-200 p-20 my-10">
-    <h2 class="my-5 text-2xl">The main font is </h2>
-    <div class="w-40 h-20 bg-themecolor-800 text-white flex items-center justify-center my-1 font-sans">font-sans</div>
-    <div class="w-40 h-20 bg-themecolor-900 text-white flex items-center justify-center my-1 font-serif">font-serif</div>
-    <div class="w-40 h-20 bg-themecolor-900 text-white flex items-center justify-center my-1 font-mono">font-mono</div>
-  </section>
-	
-  <section class="bg-gray-200 p-20">
-    <h2 class="my-5 text-2xl">Theme button example</h2>
-    <hr class="my-5"/>
-    <button class="inquiry-btn btn btn-primary" data-model={`工频机`}>btn btn-primary</button>
-    <button class="inquiry-btn btn btn-secondary" data-model={`工频机`}>btn btn-secondary</button>
-    <button class="inquiry-btn btn btn-outline-primary" data-model={`工频机`}>btn btn-outline-primary</button>
-    <hr class="my-5"/>
-    <button class="inquiry-btn btn btn-primary btn-lg" data-model={`工频机`}>btn btn-primary btn-lg</button>
-    <button class="inquiry-btn btn btn-secondary btn-lg" data-model={`工频机`}>btn btn-secondary btn-lg</button>
-    <button class="inquiry-btn btn btn-outline-primary btn-lg" data-model={`工频机`}>btn btn-outline-primary btn-lg</button>
-    <hr class="my-5"/>
-    <button class="inquiry-btn btn btn-primary btn-sm" data-model={`工频机`}>btn btn-primary btn-sm</button>
-    <button class="inquiry-btn btn btn-secondary btn-sm" data-model={`工频机`}>btn btn-secondary btn-sm</button>
-    <button class="inquiry-btn btn btn-outline-primary btn-sm" data-model={`工频机`}>btn btn-outline-primary btn-sm</button>
-  </section>
-
-  <section class="bg-gray-200 p-20 my-2">
-    <h2 class="my-5 text-2xl">Theme text example</h2>
-    <hr class="my-5"/>
-    <p class="text-themecolor-800 p-2">some text: text-themecolor-800</p>
-    <p class="bg-themecolor-800 text-white p-2">some text with bg bg-themecolor-800</p>
-    <a href="#" class="hover:text-themecolor-800 underline">link text</a>
-    
-  </section>
-
-  <section class="bg-themecolor-800 p-20 my-2">
-    <h2 class="my-5 text-3xl text-white">Theme background color section</h2>
-    <p class="bg-themecolor-800 text-white p-2 my-3">Our products undergo rigorous testing to guarantee the highest quality standards, providing clients with peace of mind and uninterrupted power.</p>
-  </section>
-
 
 
 	<div class="faq-section bg-white p-6 rounded-lg shadow-md mt-8">
@@ -80,9 +41,6 @@ const faqItems = [
 	</div>
 
   <div>
-    Language Switcher Example:
-    <LanguageSwitchertwo />
-
     <CaseStudies />
     
   </div>

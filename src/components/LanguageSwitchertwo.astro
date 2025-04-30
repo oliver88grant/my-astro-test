@@ -10,7 +10,7 @@ const languages = [
 ]
 ---
 
-<div class="relative group inline-block text-left pb-2"> {/* Added pb-2 */}
+<div class="relative group inline-block text-left"> {/* Added pb-2 */}
   <!-- Trigger -->
   <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md shadow-sm bg-white hover:bg-gray-100 cursor-pointer">
     🌐 {languages.find(l => l.code === currentLang)?.label || 'Language'}
@@ -20,16 +20,19 @@ const languages = [
   </div>
 
   {/* Make the dropdown part of the direct flow initially for hover, position it visually */}
-   <div class="absolute left-0 top-full z-10 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 scale-95 group-hover:!opacity-100 group-hover:!scale-100 invisible group-hover:!visible transition-all duration-150 ease-out pointer-events-none group-hover:!pointer-events-auto"> {/* Adjusted classes for transition */}
-    <div class="py-1">
-      {languages.map(lang => (
-        <a
-          href={`/${lang.code}/`}
-          class={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${lang.code === currentLang ? 'font-semibold' : ''}`}
-        >
-          {lang.label}
-        </a>
-      ))}
+    <div class="absolute w-48  left-0 top-full z-10 bg-transparent opacity-0 scale-95 group-hover:!opacity-100 group-hover:!scale-100 invisible group-hover:!visible transition-all duration-150 ease-out pointer-events-none group-hover:!pointer-events-auto">
+      <div class="rounded-md shadow-lg bg-white mt-3 ring-1 ring-gray-300 ring-opacity-5">
+        <div class="py-1">
+          {languages.map(lang => (
+            <a
+              href={`/${lang.code}/`}
+              class={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${lang.code === currentLang ? 'font-semibold' : ''}`}
+            >
+              {lang.label}
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
+
 </div>
