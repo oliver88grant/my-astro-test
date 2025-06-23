@@ -1,6 +1,6 @@
 ---
-import { salesEmail } from '@/config/const.js';
 import { MailIcon } from '@/components/Icons.jsx';
+const to_email = import.meta.env.PUBLIC_to_email;
 const footerLinks = [
   {
     title: 'Products',
@@ -78,7 +78,7 @@ const footerLinks = [
 
             <div class="flex items-center">
               <MailIcon className="w-5 h-5 text-gray-500 mr-1" />
-              <span class="text-sm text-gray-600 dark:text-gray-300">{salesEmail}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-300">{to_email}</span>
             </div>
             <div class="flex items-start">
               

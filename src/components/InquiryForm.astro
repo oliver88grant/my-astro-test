@@ -1,53 +1,58 @@
 ---
-const { id = "inquiryModal", formClass } = Astro.props;
-import { inquiry_base_url, inquiry_url, company_name, to_email } from "@/config/const";
+const { modalId, formId, formClass } = Astro.props;
+const inquiry_base_url = import.meta.env.PUBLIC_inquiry_base_url;
+const inquiry_url = import.meta.env.PUBLIC_inquiry_url;
+const company_name = import.meta.env.PUBLIC_company_name;
+const to_email = import.meta.env.PUBLIC_to_email;
+
 ---
 
-<form class=`space-y-4 ${formClass}` id="inquiry-form">
+<form class={`space-y-4 ${formClass || ''}`} id={formId}>
+  <div>
+    <label class="block text-sm font-medium">Product model</label>
+    <input type="text" id="product_model" class="product_model mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Product model" />
+  </div>
   <div>
     <label class="block text-sm font-medium">Name</label>
     <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your name" />
   </div>
   <div>
     <label class="block text-sm font-medium">Email</label>
-    <input type="text" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Model" />
+    <input type="text" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your email" />
   </div>
   <div>
     <label class="block text-sm font-medium">Message</label>
     <textarea id="message" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Your message..."></textarea>
   </div>
-  <p id="errMessage" class="text-red-500 hidden"></p>
-  <p id="successMessage" class="text-green-500 hidden"></p>
-  <div class="text-right">
-    <button type="button" class="btn btn-secondary" onclick={`document.getElementById('${id}').classList.add('hidden')`}>Cancel</button>
-    <button class="btn btn-primary" id="submit-btn">Send <span id="loading-icon" class="loading-icon hidden"></span></button>
+  <p class="errMessage text-red-500 hidden"></p>
+  <p class="successMessage text-green-500 hidden"></p>
+  <div class="text-right flex gap-2">
+    
+    <button class="btn btn-primary !flex items-center justify-center gap-2" id="submit-btn">
+      <span>Send</span>
+      <span class="loading-icon hidden">
+        <svg class="w-5 h-5 text-white animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+      </span>
+    </button>
+    { !modalId ? '' : (
+      <button type="button" class="btn btn-secondary" onclick={`document.getElementById('${modalId}').classList.add('hidden')`}>Cancel</button>
+    ) }
+    
   </div>
   
 </form>
-<script is:inline>
-  window.INQUIRY_CONFIG = {
-    inquiry_base_url: "{inquiry_base_url}",
-    inquiry_url: "{inquiry_url}",
-    company_name: "{company_name}",
-    to_email: "{to_email}"
-  };
-</script>
 
-<script type="module" is:inline>
-  
-
-
-  const { inquiry_base_url, inquiry_url, company_name, to_email } = window.INQUIRY_CONFIG;
-
-
-  // import { inquiry_base_url, inquiry_url, company_name, to_email } from "../config/const";
+<script type="module" is:inline define:vars={{ inquiry_base_url, inquiry_url, company_name, to_email, formId }}>
   
   document.addEventListener('DOMContentLoaded', async() => {
     
-    const form = document.getElementById('inquiry-form');
-    const loadingIcon = document.getElementById('loading-icon');
-    const errMessageEle = document.getElementById('errMessage');
-    const successMessageEle = document.getElementById('successMessage');
+    const form = document.getElementById(formId);
+    const loadingIcon = document.querySelector(`#${formId} .loading-icon`);
+    const errMessageEle = document.querySelector(`#${formId} .errMessage`);
+    const successMessageEle = document.querySelector(`#${formId} .successMessage`);
 
     if(!window.axios){
       try {
@@ -64,6 +69,7 @@ import { inquiry_base_url, inquiry_url, company_name, to_email } from "@/config/
       const name = form.name?.value?.trim();
       const message = form.message?.value?.trim();
       const email = form.email?.value?.trim();
+      const product_model = form.product_model?.value?.trim();
 
       if (!name || !message || !email) {
 
@@ -86,6 +92,9 @@ import { inquiry_base_url, inquiry_url, company_name, to_email } from "@/config/
         company_name: company_name,
         to_email
       }
+      if(product_model){
+        data.product_model = product_model;
+      }
 
       try {
 
@@ -96,7 +105,7 @@ import { inquiry_base_url, inquiry_url, company_name, to_email } from "@/config/
 
         const response = await axios.post(`${inquiry_base_url}${inquiry_url}`, data);
 
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
           errMessageEle.innerText = '';
           errMessageEle.classList.add('hidden');
           
