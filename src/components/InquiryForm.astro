@@ -1,0 +1,128 @@
+---
+const { id = "inquiryModal", formClass } = Astro.props;
+import { inquiry_base_url, inquiry_url, company_name, to_email } from "@/config/const";
+---
+
+<form class=`space-y-4 ${formClass}` id="inquiry-form">
+  <div>
+    <label class="block text-sm font-medium">Name</label>
+    <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your name" />
+  </div>
+  <div>
+    <label class="block text-sm font-medium">Email</label>
+    <input type="text" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Model" />
+  </div>
+  <div>
+    <label class="block text-sm font-medium">Message</label>
+    <textarea id="message" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Your message..."></textarea>
+  </div>
+  <p id="errMessage" class="text-red-500 hidden"></p>
+  <p id="successMessage" class="text-green-500 hidden"></p>
+  <div class="text-right">
+    <button type="button" class="btn btn-secondary" onclick={`document.getElementById('${id}').classList.add('hidden')`}>Cancel</button>
+    <button class="btn btn-primary" id="submit-btn">Send <span id="loading-icon" class="loading-icon hidden"></span></button>
+  </div>
+  
+</form>
+<script is:inline>
+  window.INQUIRY_CONFIG = {
+    inquiry_base_url: "{inquiry_base_url}",
+    inquiry_url: "{inquiry_url}",
+    company_name: "{company_name}",
+    to_email: "{to_email}"
+  };
+</script>
+
+<script type="module" is:inline>
+  
+
+
+  const { inquiry_base_url, inquiry_url, company_name, to_email } = window.INQUIRY_CONFIG;
+
+
+  // import { inquiry_base_url, inquiry_url, company_name, to_email } from "../config/const";
+  
+  document.addEventListener('DOMContentLoaded', async() => {
+    
+    const form = document.getElementById('inquiry-form');
+    const loadingIcon = document.getElementById('loading-icon');
+    const errMessageEle = document.getElementById('errMessage');
+    const successMessageEle = document.getElementById('successMessage');
+
+    if(!window.axios){
+      try {
+        const { default: axios } = await import('https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm');
+        window.axios = axios;
+      } catch (error) {
+        console.error('Error loading axios from https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm', error);
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = form.name?.value?.trim();
+      const message = form.message?.value?.trim();
+      const email = form.email?.value?.trim();
+
+      if (!name || !message || !email) {
+
+        successMessageEle.innerText = '';
+        successMessageEle.classList.add('hidden');
+        errMessageEle.innerText = 'Please fill out all fields.';
+        errMessageEle.classList.remove('hidden');
+        return;
+      }
+
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      loadingIcon.classList.remove('hidden');
+
+      const data={
+        name: name,
+        message: message,
+        email: email,
+        company_name: company_name,
+        to_email
+      }
+
+      try {
+
+        if(!window.axios){
+          const { default: axios } = await import(`https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.4/esm/axios.min.js?cb=${Date.now()}`);
+          window.axios = axios;
+        }
+
+        const response = await axios.post(`${inquiry_base_url}${inquiry_url}`, data);
+
+        if (response.status === 200) {
+          errMessageEle.innerText = '';
+          errMessageEle.classList.add('hidden');
+          
+          form.reset();
+          successMessageEle.innerText = 'Message sent successfully!';
+          successMessageEle.classList.remove('hidden');
+          // Optional: Close the modal
+          // document.getElementById('inquiryModal').classList.add('hidden');
+        } else {
+          errMessageEle.innerText = 'Something went wrong. Try again.';
+          errMessageEle.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error(err);
+        errMessageEle.innerText = 'Failed to send message.';
+        errMessageEle.classList.remove('hidden');
+      }finally {
+        // Reset button state
+        if(submitBtn){
+          submitBtn.disabled = false;
+          loadingIcon.classList.add('hidden');
+        }
+      }
+    });
+    
+  });
+
+  
+</script>

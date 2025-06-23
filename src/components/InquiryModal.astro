@@ -1,5 +1,6 @@
 ---
 const { id = "inquiryModal" } = Astro.props;
+import InquiryForm from "./InquiryForm.astro";
 ---
 
 <!-- Modal HTML -->
@@ -8,27 +9,7 @@ const { id = "inquiryModal" } = Astro.props;
     <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl" onclick={`document.getElementById('${id}').classList.add('hidden')`}>&times;</button>
     <h2 class="text-xl font-semibold mb-4">Product Inquiry</h2>
 
-    <form class="space-y-4" id="inquiry-form">
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your name" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Model</label>
-        <input type="text" id="model" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Model" />
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-gray-700">Message</label>
-        <textarea id="message" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Your message..."></textarea>
-      </div>
-      <p id="errMessage" class="text-red-500 hidden"></p>
-      <p id="successMessage" class="text-green-500 hidden"></p>
-      <div class="text-right">
-        <button type="button" class="btn btn-secondary" onclick={`document.getElementById('${id}').classList.add('hidden')`}>Cancel</button>
-        <button class="btn btn-primary" id="submit-btn">Send <span id="loading-icon" class="loading-icon hidden"></span></button>
-      </div>
-      
-    </form>
+    <InquiryForm />
   </div>
 </div>
 
@@ -61,93 +42,6 @@ const { id = "inquiryModal" } = Astro.props;
       modal.classList.add("hidden");
     }
   });
-</script>
-<script type="module" is:inline>
-
-
-  document.addEventListener('DOMContentLoaded', async() => {
-    
-    const form = document.getElementById('inquiry-form');
-    const loadingIcon = document.getElementById('loading-icon');
-    const errMessageEle = document.getElementById('errMessage');
-    const successMessageEle = document.getElementById('successMessage');
-
-    if(!window.axios){
-      try {
-        const { default: axios } = await import('https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm');
-        window.axios = axios;
-      } catch (error) {
-        console.error('Error loading axios from https://cdn.jsdelivr.net/npm/axios@1.6.8/+esm', error);
-      }
-    }
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const name = form.name?.value?.trim();
-      const message = form.message?.value?.trim();
-      const model = form.model?.value?.trim();
-
-      if (!name || !message || !model) {
-
-        successMessageEle.innerText = '';
-        successMessageEle.classList.add('hidden');
-        errMessageEle.innerText = 'Please fill out all fields.';
-        errMessageEle.classList.remove('hidden');
-        return;
-      }
-
-
-      const submitBtn = document.getElementById('submit-btn');
-      submitBtn.disabled = true;
-      loadingIcon.classList.remove('hidden');
-
-
-      const data={
-        name: name,
-        message: message,
-        model: model,
-      }
-
-
-      try {
-
-        if(!window.axios){
-          const { default: axios } = await import(`https://cdnjs.cloudflare.com/ajax/libs/axios/1.8.4/esm/axios.min.js?cb=${Date.now()}`);
-          window.axios = axios;
-        }
-
-        const response = await axios.get('https://nestjs.50d.top');
-
-        if (response.status === 200) {
-          errMessageEle.innerText = '';
-          errMessageEle.classList.add('hidden');
-          
-          form.reset();
-          successMessageEle.innerText = 'Message sent successfully!';
-          successMessageEle.classList.remove('hidden');
-          // Optional: Close the modal
-          // document.getElementById('inquiryModal').classList.add('hidden');
-        } else {
-          errMessageEle.innerText = 'Something went wrong. Try again.';
-          errMessageEle.classList.remove('hidden');
-        }
-      } catch (err) {
-        console.error(err);
-        errMessageEle.innerText = 'Failed to send message.';
-        errMessageEle.classList.remove('hidden');
-      }finally {
-        // Reset button state
-        if(submitBtn){
-          submitBtn.disabled = false;
-          loadingIcon.classList.add('hidden');
-        }
-      }
-    });
-    
-  });
-
-  
 </script>
 
 <style>

@@ -1,2 +1,4 @@
-export const DEFAULT_API_URL = 'https://api.example.com';
-export const salesEmail = 'sales@rhimopower.com';
+export const inquiry_base_url = 'https://nestjs.50d.top';
+export const inquiry_url = '/customer-inquiries/inquiryAndEmail';
+export const company_name = 'rhimopower';
+export const to_email = 'rhimopower@gmail.com';
