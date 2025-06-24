@@ -18,7 +18,7 @@ const to_email = import.meta.env.PUBLIC_to_email;
   </div>
   <div>
     <label class="block text-sm font-medium">Email</label>
-    <input type="text" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your email" />
+    <input type="email" name="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your email" />
   </div>
   <div>
     <label class="block text-sm font-medium">Message</label>
@@ -65,21 +65,27 @@ const to_email = import.meta.env.PUBLIC_to_email;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const name = form.name?.value?.trim();
       const message = form.message?.value?.trim();
       const email = form.email?.value?.trim();
       const product_model = form.product_model?.value?.trim();
 
       if (!name || !message || !email) {
-
         successMessageEle.innerText = '';
         successMessageEle.classList.add('hidden');
         errMessageEle.innerText = 'Please fill out all fields.';
         errMessageEle.classList.remove('hidden');
         return;
       }
-
+      // Check email validity using checkValidity()
+      const emailInput = form.querySelector(`#${formId} [name="email"]`);
+      if (emailInput && !emailInput.checkValidity()) {
+        successMessageEle.innerText = '';
+        successMessageEle.classList.add('hidden');
+        errMessageEle.innerText = 'Please enter a valid email address.';
+        errMessageEle.classList.remove('hidden');
+        return;
+      }
 
       const submitBtn = document.getElementById('submit-btn');
       submitBtn.disabled = true;

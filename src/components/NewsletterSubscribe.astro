@@ -42,7 +42,7 @@ const company_name = import.meta.env.PUBLIC_company_name;
     successMsg.classList.add('hidden');
     errorMsg.classList.add('hidden');
     const email = emailInput.value.trim();
-    if (!email) {
+    if (!emailInput.checkValidity()) {
       errorMsg.textContent = 'Please enter a valid email.';
       errorMsg.classList.remove('hidden');
       return;
