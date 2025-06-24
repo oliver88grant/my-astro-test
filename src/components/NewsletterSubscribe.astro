@@ -1,0 +1,76 @@
+---
+const inquiry_base_url = import.meta.env.PUBLIC_inquiry_base_url;
+const subscribers_url = import.meta.env.PUBLIC_subscribers_url;
+const company_name = import.meta.env.PUBLIC_company_name;
+---
+<div class="border-t border-gray-200 dark:border-gray-800 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Subscribe to our newsletter</h3>
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+        Stay updated with the latest product releases, special offers, and news.
+      </p>
+    </div>
+    <div>
+      <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+        <input type="email" id="newsletter-email" name="email" required placeholder="Enter your email" class="flex-grow px-4 py-2 rounded border border-gray-300" />
+        <button type="submit" id="newsletter-submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed">
+          <span>Subscribe</span>
+          <span id="newsletter-loading" class="ml-2 hidden">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          </span>
+        </button>
+      </form>
+      <p id="newsletter-success" class="text-green-600 mt-2 hidden">Thanks, Subscribed successfully!</p>
+      <p id="newsletter-error" class="text-red-600 mt-2 hidden">Failed to subscribe. Please try again.</p>
+    </div>
+    
+  </div>
+</div>
+<script is:inline define:vars={{inquiry_base_url, subscribers_url, company_name }}>
+  const form = document.getElementById('newsletter-form');
+  const emailInput = document.getElementById('newsletter-email');
+  const submitBtn = document.getElementById('newsletter-submit');
+  const loadingIcon = document.getElementById('newsletter-loading');
+  const successMsg = document.getElementById('newsletter-success');
+  const errorMsg = document.getElementById('newsletter-error');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    successMsg.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+    const email = emailInput.value.trim();
+    if (!email) {
+      errorMsg.textContent = 'Please enter a valid email.';
+      errorMsg.classList.remove('hidden');
+      return;
+    }
+    submitBtn.disabled = true;
+    loadingIcon.classList.remove('hidden');
+    try {
+      const res = await fetch(`${inquiry_base_url}${subscribers_url}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, company_name, from_url: window.location.href })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        successMsg.textContent = 'Thanks, subscribed successfully!';
+        successMsg.classList.remove('hidden');
+        form.reset();
+      } else {
+        const errMsg = data?.error?.message || 'Failed to subscribe. Please try again.';
+        errorMsg.textContent = errMsg;
+        errorMsg.classList.remove('hidden');
+      }
+    } catch (err) {
+      errorMsg.textContent = 'Failed to subscribe. Please try again.';
+      errorMsg.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      loadingIcon.classList.add('hidden');
+    }
+  });
+</script> 
